@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Arvore", "AVL\Arvore.vbproj", "{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Teste", "TesteArvore\Teste.vbproj", "{136D5831-F554-440D-A17A-36D50FF9B8FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{136D5831-F554-440D-A17A-36D50FF9B8FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{136D5831-F554-440D-A17A-36D50FF9B8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{136D5831-F554-440D-A17A-36D50FF9B8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{136D5831-F554-440D-A17A-36D50FF9B8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7A72D77-E9B5-4D44-A85C-1C5507CAE808}
+	EndGlobalSection
+EndGlobal
