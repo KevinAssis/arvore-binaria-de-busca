@@ -192,7 +192,7 @@ Public Class Arvore(Of T As IComparable)
         ' x   x   B   x
         If A.Direita.FatorBalanco < 0 Then RotacaoADireita(A.Direita, True)
 
-        ' Agora que o balanço de B é maior que 0 fazer uma rotação simples.
+        ' Agora que o balanço de B é maior ou igual a 0 fazer uma rotação simples.
         '       A
         '   x       B
         ' x   x   x   C
@@ -240,7 +240,7 @@ Public Class Arvore(Of T As IComparable)
         ' x   B   x   x
         If C.Esquerda.FatorBalanco > 0 Then RotacaoAEsquerda(C.Esquerda, True)
 
-        ' Agora que o balanço de B é menor que 0 fazer uma rotação simples.
+        ' Agora que o balanço de B é menor ou igual a 0 fazer uma rotação simples.
         '       C
         '   B       x
         ' A   x   x   x
