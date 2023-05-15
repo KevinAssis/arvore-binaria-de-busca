@@ -1,5 +1,5 @@
 # Árvore binária de busca
-Uma árvore binária de busca implementando o algoritmo AVL em Visual Basic.
+Uma árvore binária de busca implementando o algoritmo AVL.
 Cada diretório contem a implementação em uma linguagem diferente e um README explicando como executar a demonstração.
 
 ## Funcionamento
@@ -57,6 +57,8 @@ E então é realizada a rotação à direita resultando em:
     B
 A       C
 ```
+
+A cada inserção ou remoção os balanceamentos são verificados e as rotações necessárias são realizadas. Dessa forma a árvore está sempre balanceada.
 
 ## Implementações
 Abaixo estão os links para os READMEs de cada linguagem:
