@@ -1,5 +1,6 @@
 ﻿Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports Arvore
 
 <Assembly: InternalsVisibleTo("Teste")>
 

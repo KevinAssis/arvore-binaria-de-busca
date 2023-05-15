@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D39C5EC0-0B91-4BF6-B8BE-8F5D3F0B63EF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Arvore</RootNamespace>
-    <AssemblyName>Arvore</AssemblyName>
+    <ProjectGuid>{F5974CD1-B15A-48C8-94CB-906CE8D491A3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Demonstracao</RootNamespace>
+    <AssemblyName>Demonstracao</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Empty</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -50,8 +50,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -61,11 +60,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arvore.vb" />
-    <Compile Include="No.vb" />
+    <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="My Project\" />
+    <Compile Include="Demo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AVL\Arvore.vbproj">
+      <Project>{d39c5ec0-0b91-4bf6-b8be-8f5d3f0b63ef}</Project>
+      <Name>Arvore</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data" />

@@ -121,6 +121,10 @@
       <Project>{d39c5ec0-0b91-4bf6-b8be-8f5d3f0b63ef}</Project>
       <Name>Arvore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Demonstracao\Demonstracao.vbproj">
+      <Project>{f5974cd1-b15a-48c8-94cb-906ce8d491a3}</Project>
+      <Name>Demonstracao</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
