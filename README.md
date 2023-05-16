@@ -14,7 +14,7 @@ Para exemplificar podemos usar números inteiros, mas as implementações desse 
 ```
 11 é filho à esquerda de 21 por ser menor e 88 é filho à direita por ser maior. Para encontrar o número 75 um algoritmo poderia iniciar verificando que 75 é maior do que a raiz, descendo ao filho da direita e verificando que 75 é menor do que 88, sem precisar passar pela maioria dos itens da árvore.
 ### Algoritmo AVL
-Ao inserir ou remover itens é possível que uma parte da árvore se torne mais profunda do que a outra, o que a torna desbalanceada. Isso pode torna a busca menos eficiente. Para resolver esse problema o Algoritimo AVL, criado por Adelson-Velsky e Landis, realiza rotações entre os nós da árvore sempre que a diferença entre a subárvore da esquerda e a subárvore da direita de qualquer nó é maior que 1 ou menor que -1.
+Ao inserir ou remover itens é possível que uma parte da árvore se torne mais profunda do que a outra, o que a torna desbalanceada. Isso pode tornar a busca menos eficiente. Para resolver esse problema o algoritimo AVL, criado por Adelson-Velsky e Landis, realiza rotações entre os nós da árvore sempre que a diferença entre a subárvore da esquerda e a subárvore da direita de qualquer nó é maior que 1 ou menor que -1.
 O fator de balanço é definido como altura da subárvore direita - altura da subárvore esquerda.
 Abaixo, x significa um valor que não tem importância para essa rotação.
 #### Rotação à esquerda
