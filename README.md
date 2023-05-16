@@ -1,6 +1,6 @@
 # Árvore binária de busca
 Uma árvore binária de busca implementando o algoritmo AVL.
-Cada diretório contem a implementação em uma linguagem diferente e um README explicando como executar a demonstração.
+Cada diretório contém a implementação em uma linguagem diferente e um README explicando como executar a demonstração.
 
 ## Funcionamento
 ### Árvore binária de busca
