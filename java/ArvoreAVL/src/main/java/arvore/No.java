@@ -1,4 +1,4 @@
-package Arvore;
+package arvore;
 
 /**
  * Classe nó que só pode ser usada dentro de uma classe Arvore deste pacote.
