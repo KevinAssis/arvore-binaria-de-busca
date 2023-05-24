@@ -19,7 +19,7 @@ Imports Demonstracao
     ''' <param name="NoRaiz">Nó raiz da subárvore.</param>
     Private Sub ExecutarDeBaixoParaCima(Acao As Action(Of No(Of Integer)), NoRaiz As No(Of Integer))
 
-        ' Primeiro no filhos.
+        ' Primeiro nos filhos.
         If Not NoRaiz.Vazio Then
 
             If Not NoRaiz.Esquerda.Vazio Then
