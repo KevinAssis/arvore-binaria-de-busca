@@ -13,7 +13,8 @@ public class Demonstracao {
 
     /**
      * Produz um array de inteiros aleatorios, sem repetição, entre 0 e maximo.
-     *
+     * @param maximo Limite superior, não incluido, para os valores do array.
+     * @param tamanho Número de itens no array.
      */
     public static ArrayList<Integer> arrayAleatorio(int tamanho, int maximo) {
         if (tamanho > maximo) {
