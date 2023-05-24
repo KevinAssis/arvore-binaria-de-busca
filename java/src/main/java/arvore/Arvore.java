@@ -6,6 +6,14 @@ package arvore;
  */
 public class Arvore<T extends Comparable<T>> {
 
+    private No<T> raiz = new No<>(null);
+    private int contagem = 0;
+
+    // Getters
+    public No<T> getRaiz() { return raiz; }
+
+    public int getContagem() { return contagem; }
+
     /**
      * Função recursiva que desce na árvore até encontrar o valor, comparando ele a cada nó.
      * @param valor Valor procurado.
