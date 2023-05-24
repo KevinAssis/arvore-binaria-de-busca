@@ -13,7 +13,7 @@ Imports Demonstracao
     ' Subs para auxiliar os testes.
 
     ''' <summary>
-    ''' Executa Acao em todos os nós de abaixo de NoRaiz, começando pelas folhas e subindo.
+    ''' Executa Acao em todos os nós abaixo de NoRaiz, começando pelas folhas e subindo.
     ''' </summary>
     ''' <param name="Acao">O que deve ser executado.</param>
     ''' <param name="NoRaiz">Nó raiz da subárvore.</param>
