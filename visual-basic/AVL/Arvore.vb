@@ -16,12 +16,13 @@ Public Class Arvore(Of T As IComparable)
     ''' <summary>
     ''' Função recursiva que desce na árvore até encontrar o Valor
     ''' comparando ele a cada nó.
-    ''' Se não encontrar o Valor ela retorna um nó vazio
-    ''' que representa a posição onde o Valor deveria ser inserido.
     ''' </summary>
     ''' <param name="Valor"></param>
-    ''' <param name="EsteNo">Nó que está sendo examinado nesta iteração.</param>
-    ''' <returns></returns>
+    ''' <param name="EsteNo">Nó que será examinado nesta iteração.</param>
+    ''' <returns>
+    '''     O nó contendo o valor, se encontrado, 
+    '''     ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
+    ''' </returns>
     Private Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
 
         If (EsteNo.Vazio) Then
