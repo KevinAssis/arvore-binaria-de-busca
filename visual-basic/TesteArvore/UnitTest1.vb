@@ -102,7 +102,7 @@ Imports Demonstracao
 
     End Sub
 
-    ' AlturaArvore
+' Altura da árvore
 
     ''' <summary>
     ''' Calcula a altura deste nó por percorrer todos os seus decendentes.
@@ -218,7 +218,7 @@ Imports Demonstracao
     ''' </summary>
     <TestMethod()> Public Sub RemocaoDeValorNaoPresente()
         Dim Arv = New Arvore(Of Integer)
-        ' Metade da árvore vai ser estar presente e outra metade não.
+' Metade dos números vai estar presente e outra metade não.
         Dim IndiceMetade As Integer = Tamanho / 2
 
         ' Insere a primeira metade da lista de números.
