@@ -17,8 +17,9 @@ public class Arvore<T extends Comparable<T>> {
     /**
      * Função recursiva que desce na árvore até encontrar o valor, comparando ele a cada nó.
      * @param valor Valor procurado.
-     * @param no Nó que está sendo examinado nesta iteração.
-     * @return Nó encontrado ou, se não encontrar, nó vazio onde o valor deveria ser inserido.
+     * @param no Nó que será examinado nesta iteração.
+     * @return O nó contendo o valor, se encontrado,
+     * ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
      */
     private No<T> encontrar(T valor, No<T> no) {
         // TODO Implementar encontrar
