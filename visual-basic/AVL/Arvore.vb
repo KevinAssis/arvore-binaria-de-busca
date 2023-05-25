@@ -22,7 +22,7 @@ Public Class Arvore(Of T As IComparable)
     ''' <param name="Valor"></param>
     ''' <param name="EsteNo">Nó que está sendo examinado nesta iteração.</param>
     ''' <returns></returns>
-    Public Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
+    Private Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
 
         If (EsteNo.Vazio) Then
             ' _Valor não foi encontrado, mas pode ser adicionado nesta posição.
@@ -153,7 +153,7 @@ Public Class Arvore(Of T As IComparable)
     ''' Verifica o balanço do nó N e, dependendo do valor, realiza rotações para tornar esta subárvore balanceada.
     ''' </summary>
     ''' <param name="N">Nó que será verificado e balanceado.</param>
-    Public Sub Balancear(N As No(Of T))
+    Private Sub Balancear(N As No(Of T))
 
         N.AtualizarAltura()
 
