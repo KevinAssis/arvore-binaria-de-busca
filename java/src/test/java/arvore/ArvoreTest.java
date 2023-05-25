@@ -233,13 +233,15 @@ class ArvoreTest {
         // Espera-se que os números inseridos ainda estejam na árvore.
         for (int i  = 0; i < indiceMetade; i++) {
             int n  = numeros.get(i);
-            assertTrue(arvore.contem(n));
+            boolean resultado = arvore.contem(n);
+            assertTrue(resultado);
         }
 
         // Espera-se que os números que nunca foram inseridos não estejam na árvore.
         for (int i = indiceMetade; i < tamanho; i++) {
             int n = numeros.get(i);
-            assertFalse(arvore.contem(n));
+            boolean resultado = arvore.contem(n);
+            assertFalse(resultado);
         }
 
     }
