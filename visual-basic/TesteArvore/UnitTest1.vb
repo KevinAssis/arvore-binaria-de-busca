@@ -83,8 +83,7 @@ Imports Demonstracao
         Dim Arv = New Arvore(Of Integer)
 
         ' Insere os itens da lista de números e verifica o balanceamento a cada inserção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Inserir(N)
             ' Verifica o balanceamento de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarBalanceamento, Arv.Raiz)
@@ -93,8 +92,7 @@ Imports Demonstracao
         EmbaralharNumeros()
 
         ' Remove todos os itens da lista e verifica o balanceamento a cada remoção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Remover(N)
             ' Verifica o balanceamento de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarBalanceamento, Arv.Raiz)
@@ -132,8 +130,7 @@ Imports Demonstracao
         Dim Arv = New Arvore(Of Integer)
 
         ' Insere os números da lista e verifica as alturas a cada inserção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Inserir(N)
             ' Verifica a altura de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarAlturaDeUmNo, Arv.Raiz)
@@ -142,8 +139,7 @@ Imports Demonstracao
         EmbaralharNumeros()
 
         ' Remove todos os números da lista e verifica as alturas a cada remoção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Remover(N)
             ' Verifica a altura de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarAlturaDeUmNo, Arv.Raiz)
@@ -163,8 +159,7 @@ Imports Demonstracao
         Dim ContagemEsperada = 0
 
         ' Insere todos os números da lista e verifica a contagem a cada inserção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Inserir(N)
             ContagemEsperada += 1
             Assert.AreEqual(Arv.Contagem, ContagemEsperada)
@@ -173,8 +168,7 @@ Imports Demonstracao
         EmbaralharNumeros()
 
         ' Remove todos os números da lista e verifica a contagem a cada remoção.
-        For I = 0 To Tamanho - 1
-            Dim N = Numeros(I)
+        For Each N As Integer In Numeros
             Arv.Remover(N)
             ContagemEsperada -= 1
             Assert.AreEqual(Arv.Contagem, ContagemEsperada)
@@ -230,7 +224,8 @@ Imports Demonstracao
         ' Tenta remover a segunda metade da lista, que não está na árvore.
         For I = IndiceMetade To Tamanho - 1
             Dim N = Numeros(I)
-            Assert.IsFalse(Arv.Remover(N))
+            Dim Resultado = Arv.Remover(N)
+            Assert.IsFalse(Resultado)
         Next
 
         ' Espera-se a contagem não tenha sido alterada pelas tentativas de remover valores que não estão na árvore.
@@ -240,13 +235,15 @@ Imports Demonstracao
         ' Espera-se que os números inseridos ainda estejam na árvore.
         For I = 0 To IndiceMetade - 1
             Dim N = Numeros(I)
-            Assert.IsTrue(Arv.Contem(N))
+            Dim Resultado = Arv.Contem(N)
+            Assert.IsTrue(Resultado)
         Next
 
         ' Espera-se que os números que nunca foram inseridos não estejam na árvore.
         For I = IndiceMetade To Tamanho - 1
             Dim N = Numeros(I)
-            Assert.IsFalse(Arv.Contem(N))
+            Dim Resultado = Arv.Contem(N)
+            Assert.IsFalse(Resultado)
         Next
 
     End Sub
