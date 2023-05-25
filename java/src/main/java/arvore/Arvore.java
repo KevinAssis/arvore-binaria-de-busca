@@ -22,8 +22,26 @@ public class Arvore<T extends Comparable<T>> {
      * ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
      */
     private No<T> encontrar(T valor, No<T> no) {
-        // TODO Implementar encontrar
-        return null;
+
+        if (no.isVazio()) {
+            // valor não foi encontrado, mas pode ser adicionado nesta posição.
+            return no;
+        }
+
+        int diferenca = no.getValor().compareTo(valor);
+
+        return switch (diferenca) {
+
+            // valor encontrado neste nó.
+            case 0 -> no;
+
+            // valor é maior do que este nó.
+            case -1 -> encontrar(valor, no.getDireita());
+
+            // Case 1. valor é menor do que este nó.
+            default -> encontrar(valor, no.getEsquerda());
+
+        };
     }
 
     /**
