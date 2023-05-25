@@ -48,8 +48,8 @@ public class Arvore<T extends Comparable<T>> {
      * Verifica se valor está presente na árvore.
      */
     public boolean contem(T valor) {
-        // TODO Implementar contem
-        return false;
+        // Se encontrar retorna um nó vazio, isso significa que o valor não foi encontrado.
+        return !encontrar(valor, raiz).isVazio();
     }
 
     /**
