@@ -20,7 +20,7 @@ public class Arvore<T extends Comparable<T>> {
      * @param no Nó que está sendo examinado nesta iteração.
      * @return Nó encontrado ou, se não encontrar, nó vazio onde o valor deveria ser inserido.
      */
-    public No<T> encontrar(T valor, No<T> no) {
+    private No<T> encontrar(T valor, No<T> no) {
         // TODO Implementar encontrar
         return null;
     }
@@ -57,7 +57,7 @@ public class Arvore<T extends Comparable<T>> {
      * Verifica o balanço do nó e, dependendo do valor, realiza rotações para tornar esta subárvore balanceada.
      * @param no Nó que será verificado e balanceado.
      */
-    public void balancear(No<T> no) {
+    private void balancear(No<T> no) {
         // TODO Implementar balancear
     }
 
