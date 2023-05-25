@@ -172,7 +172,6 @@ class ArvoreTest {
     /**
      * Testa se um valor pode ser inserido duas vezes e o que acontece quando é feita essa tentativa.
      */
-    @Disabled
     @Test
     public void insercaoRepetida() {
 

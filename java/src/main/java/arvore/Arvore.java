@@ -57,8 +57,23 @@ public class Arvore<T extends Comparable<T>> {
      * @return True se o valor foi inserido com sucesso, false se já existe na árvore.
      */
     public boolean inserir(T valor) {
-        // TODO Implementar inserir
-        return false;
+
+        No<T> noEncontrado =  encontrar(valor, raiz);
+
+        // Se o nó não é vazio, o valor já existe.
+        // A árvore não aceita valores duplicados.
+        if (!noEncontrado.isVazio()) { return false; }
+
+        noEncontrado.setValor(valor);
+
+        contagem += 1;
+
+        // Balanceia a subárvore modificada e todos os nós acima.
+        if (noEncontrado.pai != null) {
+            balancear(noEncontrado.pai);
+        }
+
+        return true;
     }
 
     /**
