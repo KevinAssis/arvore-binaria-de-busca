@@ -1,7 +1,7 @@
 package arvore;
 
 /**
- * Classe nó que só pode ser usada dentro de uma classe Arvore deste pacote.
+ * Classe representando nó que só pode ser usada numa classe Arvore deste pacote.
  * @param <T> Tipo do valor armazenado nos nós.
  */
 public class No<T extends Comparable<T>> {
@@ -19,11 +19,13 @@ public class No<T extends Comparable<T>> {
     private No<T> direita;
     protected No<T> pai;
     /**
-     * Nós folha possuem filhos vazios que não armazenam valor. Essa variável indica se esse é o caso.
+     * Folhas possuem filhos vazios que não armazenam valor.
+     * Essa variável indica se esse é o caso.
      */
     private boolean vazio;
     /**
-     * Altura da subárvore que tem este nó como raiz. Máximo entre as alturas das subárvores direita e esquerda mais 1.
+     * Altura da subárvore que tem este nó como raiz.
+     * Máximo entre as alturas das subárvores direita e esquerda mais 1.
      * Folhas têm altura 1. Nós vazios têm altura 0.
      */
     private int altura = 0;
@@ -31,7 +33,7 @@ public class No<T extends Comparable<T>> {
     // Construtor
 
     /**
-     * Cria uma instância e atribui seu nó pai.
+     * Cria uma instância e atribui o seu nó pai.
      */
     public No(No<T> pai) {
         this.pai = pai;
@@ -45,8 +47,6 @@ public class No<T extends Comparable<T>> {
     public No<T> getEsquerda() { return esquerda; }
 
     public No<T> getDireita() { return direita; }
-
-    public No<T> getPai() { return pai; }
 
     public boolean isVazio() { return vazio; }
 

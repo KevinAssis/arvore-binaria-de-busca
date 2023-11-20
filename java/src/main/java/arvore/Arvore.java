@@ -1,7 +1,8 @@
 package arvore;
 
 /**
- * Árvore binária de busca que é balanceada automaticamente por meio do algoritmo AVL.
+ * Árvore binária de busca.
+ * Balanceada automaticamente por meio do algoritmo AVL.
  * @param <T> Tipo dos valores armazenados na árvore.
  */
 public class Arvore<T extends Comparable<T>> {
@@ -58,7 +59,7 @@ public class Arvore<T extends Comparable<T>> {
      */
     public boolean inserir(T valor) {
 
-        No<T> noEncontrado =  encontrar(valor, raiz);
+        No<T> noEncontrado = encontrar(valor, raiz);
 
         // Se o nó não é vazio, o valor já existe.
         // A árvore não aceita valores duplicados.
@@ -77,12 +78,67 @@ public class Arvore<T extends Comparable<T>> {
     }
 
     /**
+     * Remove o nó da árvore. Balanceia a árvore se necessário.
+     */
+    private void remover(No<T> no) {
+
+        // Em 3 dos próximos 4 casos a modificação mais profunda na árvore
+        // é no nó removido.
+        No<T> noABalancear = no.pai;
+
+        if (no.getAltura() == 1) {
+            // Altura = 1 significa o mesmo que
+            // esquerda.isVazio() && direita.isVazio().
+            no.esvaziar();
+        } else if (no.getEsquerda().isVazio()) {
+            // Tem apenas um filho à direita.
+            substituirNo(no, no.getDireita());
+            // Garbage Collector pode liberar o espaço de no.
+        } else if (no.getDireita().isVazio()) {
+            // Tem apenas um filho à esquerda.
+            substituirNo(no, no.getEsquerda());
+            // Garbage Collector pode liberar o espaço de no.
+        } else {
+            // Tem dois filhos.
+
+            // Encontra nós mais à direita na subárvore esquerda.
+            No<T> predecessor = no.getEsquerda();
+            while (!predecessor.getDireita().isVazio()) {
+                predecessor =  predecessor.getDireita();
+            }
+
+            // Coloca o valor mais alto da subárvore esquerda no lugar do valor removido.
+            no.setValor(predecessor.getValor());
+            // A árvore será balanceada quando o predecessor for removido.
+            noABalancear = null;
+            // Como o valor do predecessor está no lugar do valor removido, ele pode ser excluido.
+            remover(predecessor);
+            // Anulando a modificação dupla da contagem devido à remoção do predecessor.
+            contagem += 1;
+
+            // Garbage Collector pode liberar o espaço de no.
+        }
+
+        contagem -= 1;
+
+        if (noABalancear != null) {
+            balancear(noABalancear);
+        }
+
+    }
+
+    /**
      * Remove valor da árvore se ele existir. Balanceia a árvore se necessário.
      * @return True se o valor foi removido, false se não está presente.
      */
     public boolean remover(T valor) {
-        // TODO Implementar remover
-        return false;
+
+        No<T> noEncontrado = encontrar(valor, raiz);
+
+        if (noEncontrado.isVazio()) { return false; }
+
+        remover(noEncontrado);
+        return true;
     }
 
     // Balanceamento
@@ -92,11 +148,143 @@ public class Arvore<T extends Comparable<T>> {
      * @param no Nó que será verificado e balanceado.
      */
     private void balancear(No<T> no) {
-        // TODO Implementar balancear
+
+        no.atualizarAltura();
+
+        // Substitui a propriedade para evitar recalcular.
+        int balanco = no.getFatorBalanco();
+
+        // Se -1 <= fatorBalanco <= 1, o nó já está balanceado e nada precisa ser feito.
+        if (balanco < -1) {
+            rotacaoADireita(no);
+        } else if (balanco > 1) {
+            rotacaoAEsquerda(no);
+        }
+
+        if (no.pai != null) {
+            balancear(no.pai);
+        }
+
     }
 
-    //Rotações
-    // TODO Implementar rotações
+    // Rotações
+
+    /**
+     * O filho à direita se torna a nova raiz da subárvore.
+     * <pre>
+     *       a                 b
+     *   x       b    =>   a       c
+     * x   x   x   c
+     * </pre>
+     * @param a Nó que vai ser rotacionado.
+     */
+    private void rotacaoAEsquerda(No<T> a) {
+
+        /* Rotação dupla se o balanço de c é menor do que 0.
+         *       a
+         *   x       c
+         * x   x   b   x
+         */
+        if (a.getDireita().getFatorBalanco() < 0) { rotacaoADireita(a.getDireita()); }
+
+        /* Agora que o balanço de B é maior ou igual a 0 fazer uma rotação simples.
+         *       a
+         *   x       b
+         * x   x   x   c
+         */
+
+        // Salvando referência a b antes de substituií-lo.
+        No<T> b = a.getDireita();
+
+        // O filho à esquerda de b, mesmo que seja nó vazio, se torna filho à direita de a.
+        a.setDireita(b.getEsquerda());
+
+        // Se a era raiz da árvore, agora b se torna raiz.
+        substituirNo(a, b);
+
+        // a se torna filho à esquerda de b.
+        b.setEsquerda(a);
+
+        /* Resultado
+         *       b
+         *   a       c
+         */
+
+        // Atualizando as alturas dos nós afetados, a, b e c.
+        // Os nós acima desta subárvore serão atualizados mais tarde
+        // porque balancear chama atualizarAltura para todos eles.
+        a.atualizarAltura();
+        b.atualizarAltura();
+        b.getDireita().atualizarAltura();
+    }
+
+    /**
+     * O filho à esquerda se torna a nova raiz da subárvore.
+     * <pre>
+     *       c                 b
+     *   b       x    =>   a       c
+     * a   x   x   x
+     * </pre>
+     * @param c Nó que vai ser rotacionado.
+     */
+    private void rotacaoADireita(No<T> c) {
+
+        /* Rotação dupla se o balanço de A é maior que 0.
+         *       c
+         *   a       x
+         * x   b   x   x
+         */
+        if (c.getEsquerda().getFatorBalanco() > 0) { rotacaoAEsquerda(c.getEsquerda()); }
+
+        /* Agora que o balanço de B é menor ou igual a 0 fazer uma rotação simples.
+         *       c
+         *   b       x
+         * a   x   x   x
+         */
+
+        // Salvando referência a b antes de substituií-lo.
+        No<T> b = c.getEsquerda();
+
+        // O filho à direita de b, mesmo que seja nó vazio, se torna filho à direita de c.
+        c.setEsquerda(b.getDireita());
+
+        // Se c era raiz da árvore, agora b se torna raiz.
+        substituirNo(c, b);
+
+        // a se torna filho à esquerda de b.
+        b.setDireita(c);
+
+        /* Resultado
+         *       b
+         *   a       c
+         */
+
+        // Atualizando as alturas dos nós afetados, a, b e c.
+        // Os nós acima desta subárvore serão atualizados mais tarde
+        // porque balancear() chama atualizarAltura para todos eles.
+        b.atualizarAltura();
+        c.atualizarAltura();
+        b.getEsquerda().atualizarAltura();
+    }
+
+    /**
+     * Atualiza o pai de novo por colocá-lo no lugar de antigo e
+     * atualiza a raiz da árvore se necessário.
+     */
+    private void substituirNo(No<T> antigo, No<T> novo) {
+
+        // Se antigo era raiz da árvore, agora novo se torna raiz.
+        if (antigo.pai == null) {
+            raiz = novo;
+            novo.pai = null;
+        // Se antigo era um filho à esquerda, novo o substitui.
+        } else if (antigo.pai.getEsquerda().equals(antigo)) {
+            antigo.pai.setEsquerda(novo);
+        // Se antigo era um filho à direita, novo o substitui.
+        } else {
+            antigo.pai.setDireita(novo);
+        }
+    }
 
     // Métodos auxiliares para Strings.
 

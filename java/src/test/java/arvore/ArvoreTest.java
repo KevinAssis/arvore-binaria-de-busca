@@ -17,7 +17,6 @@ class ArvoreTest {
     private final int tamanho = 100;
     private final int maximo = 10000;
     private final ArrayList<Integer> numeros = Demonstracao.arrayAleatorio(tamanho, maximo);
-    private final Random random = new Random();
 
     // Métodos para auxiliar os testes.
 
@@ -70,7 +69,6 @@ class ArvoreTest {
     /**
      * Verifica se a árvore se mantém balanceada após várias inserções e remoções.
      */
-    @Disabled
     @Test
     public void balanceamentoAoInserir() {
 
@@ -96,7 +94,7 @@ class ArvoreTest {
 
     /**
      * Função recursiva que calcula a altura deste nó por percorrer todos os seus decendentes.
-     * A fórmula usada é a mesma da classe Arvore, porém é calculada no momento do teste
+     * A fórmula usada é a mesma da classe Arvore, porém, é calculada no momento do teste
      * para verificar se as alturas armazenadas nos nós estão corretas.
      * @param no Nó cuja altura deve ser calculada.
      * @return Máximo entre as alturas dos nós filhos + 1.
@@ -118,9 +116,8 @@ class ArvoreTest {
     }
 
     /**
-     * Verifica se a árvore está calculando a altura de cada nó corretamente a cada alteração.
+     * Verifica se a árvore calcula a altura de cada nó corretamente a cada alteração.
      */
-    @Disabled
     @Test
     public void alturaArvore() {
 
@@ -143,9 +140,8 @@ class ArvoreTest {
     // Contagem
 
     /**
-     * Verifica se a variável contagem da árvore está sendo calculada corretamente.
+     * Verifica se a variável contagem da árvore é calculada corretamente.
      */
-    @Disabled
     @Test
     public void contagem() {
 
@@ -203,7 +199,6 @@ class ArvoreTest {
     /**
      * Testa o que acontece quando se tenta remover um valor que não está na árvore.
      */
-    @Disabled
     @Test
     public void remocaoDeValorNaoPresente() {
 
