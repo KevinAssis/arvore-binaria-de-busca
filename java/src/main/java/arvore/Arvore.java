@@ -1,5 +1,8 @@
 package arvore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Árvore binária de busca.
  * Balanceada automaticamente por meio do algoritmo AVL.
@@ -293,8 +296,31 @@ public class Arvore<T extends Comparable<T>> {
      * Ocupa menos espaço que a horizontal.
      */
     public String toStringVertical() {
-        // TODO Implementar toStringVertical
-        return "";
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        toStringVerticalRecursivo(stringBuilder, 0, raiz, '*');
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Para cada nó, adiciona ao StringBuilder o valor após a indentação e um indicador de raiz, esquerda ou direita.
+     * @param representacao StringBuilder que contém a representação da árvore.
+     * @param nivel Profundidade do nó que será representada como indentação. 0 para raiz.
+     */
+    private void toStringVerticalRecursivo(StringBuilder representacao, int nivel, No<T> no, char posicao) {
+
+        if (no.isVazio()) { return; }
+
+        representacao.append(
+                "%s%c %s%n"
+                        .formatted(" ".repeat(nivel), posicao, no.getValor().toString())
+        );
+
+        toStringVerticalRecursivo(representacao, nivel + 1, no.getEsquerda(), 'E');
+        toStringVerticalRecursivo(representacao, nivel + 1, no.getDireita(), 'D');
+
     }
 
     /**
@@ -302,8 +328,102 @@ public class Arvore<T extends Comparable<T>> {
      * Nós irmãos ficam lado a lado.
      */
     public String toString() {
-        // TODO Implementar toString
-        return "";
+        if (raiz.isVazio()) { return ""; }
+
+        // Para cada linha da representação é feita uma lista de nós do nível correspondente da árvore.
+        ArrayList<ArrayList<No<T>>> linhas = new ArrayList<>(
+                List.of(
+                        new ArrayList<>(List.of(raiz))
+                )
+        );
+
+        // A ‘String’ que será retornada.
+        StringBuilder representacao = new StringBuilder();
+        // Número de caracteres necessários para representar o maior valor da árvore.
+        int larguraMaxima =  raiz.getValor().toString().length();
+        boolean continuar = true;
+
+        while (continuar) {
+            ArrayList<No<T>> proximaLinha =  new ArrayList<>();
+            continuar = false;
+
+            for (No<T> no: linhas.get(linhas.size() - 1)) {
+                if (no == null) {
+
+                    proximaLinha.add(null);
+                    proximaLinha.add(null);
+
+                } else {
+
+                    // Largura deste nó.
+                    int larguraNo = no.getValor().toString().length();
+                    if (larguraNo > larguraMaxima) {
+                        larguraMaxima = larguraNo;
+                    }
+
+                    // Prepara a próxima linha.
+                    if (no.getEsquerda().isVazio()) {
+                        proximaLinha.add(null);
+                    } else {
+                        proximaLinha.add(no.getEsquerda());
+                        continuar = true;
+                    }
+                    if (no.getDireita().isVazio()) {
+                        proximaLinha.add(null);
+                    } else {
+                        proximaLinha.add(no.getDireita());
+                        continuar = true;
+                    }
+
+                }
+            }
+
+            if (continuar) {
+                linhas.add(proximaLinha);
+            }
+        }
+
+        int numNosUltimaLinha = linhas.get(linhas.size() - 1).size();
+
+        // Largura da última linha em função do espaço de um nó.
+        // Espaçamento entre nós na última linha é um nó vazio.
+        int larguraArvore =  (2 * numNosUltimaLinha) - 1;
+
+        String espacoVazio = " ".repeat(larguraMaxima);
+        String noVazio = "-".repeat(larguraMaxima);
+        int profundidade = linhas.size();
+
+        for (int i = 0; i < profundidade; i++) {
+            ArrayList<No<T>> linha =  linhas.get(i);
+
+            // Espaço entre nós em função do espaço de um nó. Ex.: 1 nó vazio, 2 nós vazios, ...
+            int espacamento =  (int) Math.pow(2, (profundidade - i)) - 1;
+
+            // Espaço que é adicionado à esquerda para centralizar o nó nesta linha.
+            int larguraDestaLinha =
+                    larguraArvore - // Largura da árvore em nós.
+                            linha.size() - // Número de nós desta linha.
+                            ((linha.size() - 1) * espacamento); // Espaço ocupado nesta linha entre os nós em função do espaço de um nó.
+
+            // Adiciona a indentação antes da linha.
+            representacao.append(
+                   espacoVazio.repeat(larguraDestaLinha / 2)
+            );
+
+            for (int j = 0; j < linha.size(); j++) {
+                No<T> no = linha.get(j);
+                if (no == null) {
+                    representacao.append(noVazio);
+                } else {
+                    representacao.append(String.format("%" + larguraMaxima + "s", no.getValor()));
+                }
+                if (j != linha.size() - 1) {
+                    representacao.append(espacoVazio.repeat(espacamento));
+                }
+            }
+            representacao.append("\n");
+        }
+        return representacao.toString();
     }
 
 }

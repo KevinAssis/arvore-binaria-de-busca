@@ -14,7 +14,7 @@ Module Demo
     Sub Main()
 
         ' O método chamado para a exibição no console é Arvore.ToString(), que a exibe na horizontal.
-        ' Caso a janela do console seja pequena, modifique o zoom ou o tamanho e aperte r para exibir os resultados novamente.
+        ' Caso a janela do console seja pequena, modifique o zoom ou o tamanho e digite r para exibir os resultados novamente.
         ' Outra opção é usar o método ToStringVertical, que ocupa menos espaço na horizontal, mas o resultado é muito menos legível.
 
         Console.WriteLine(
@@ -58,9 +58,9 @@ Module Demo
     End Function
 
     ''' <summary>
-    ''' Transfere os elementos de um arrau para uma árvore.
+    ''' Transfere os elementos de um array para uma árvore.
     ''' </summary>
-    ''' <param name="Numeros">Array de Integer a ser colocado a árvore.</param>
+    ''' <param name="Numeros">Array de Integer a ser colocado na árvore.</param>
     ''' <returns>Arvore(Of Integer) contendo os elementos do array.</returns>
     Friend Function ArrayParaArvore(Numeros As Integer()) As Arvore(Of Integer)
 
@@ -84,7 +84,7 @@ Module Demo
     ''' <param name="Arv">Arvore(Of Integer) de onde devem ser removidos os elementos.</param>
     Friend Sub RemoverListaArvore(Numeros As Integer(), Arv As Arvore(Of Integer))
 
-        Console.WriteLine("Removendo os mesmo números da árvore." + NL)
+        Console.WriteLine("Removendo números da árvore." + NL)
 
         For Each N In Numeros
             Console.WriteLine($"Removendo {N}{NL}")
