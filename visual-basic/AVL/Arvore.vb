@@ -183,14 +183,13 @@ Public Class Arvore(Of T As IComparable)
     ''' </code>
     ''' </summary>
     ''' <param name="A">Nó que vai ser rotacionado.</param>
-    ''' ''' <param name="Dupla">Indica se é uma segunda rotação que não deve provocar a atualização desnecessária das alturas.</param>
-    Private Sub RotacaoAEsquerda(A As No(Of T), Dupla As Boolean)
+    Private Sub RotacaoAEsquerda(A As No(Of T))
 
         ' Rotação dupla se o balanço de C é menor que 0
         '       A
         '   x       C
         ' x   x   B   x
-        If A.Direita.FatorBalanco < 0 Then RotacaoADireita(A.Direita, True)
+        If A.Direita.FatorBalanco < 0 Then RotacaoADireita(A.Direita)
 
         ' Agora que o balanço de B é maior ou igual a 0 fazer uma rotação simples.
         '       A
@@ -230,14 +229,13 @@ Public Class Arvore(Of T As IComparable)
     ''' </code>
     ''' </summary>
     ''' <param name="C">Nó que vai ser rotacionado.</param>
-    ''' <param name="Dupla">Indica se é uma segunda rotação que não deve provocar a atualização desnecessária das alturas.</param>
-    Private Sub RotacaoADireita(C As No(Of T), Dupla As Boolean)
+    Private Sub RotacaoADireita(C As No(Of T))
 
         ' Rotação dupla se o balanço de A é maior que 0.
         '       C
         '   A       x
         ' x   B   x   x
-        If C.Esquerda.FatorBalanco > 0 Then RotacaoAEsquerda(C.Esquerda, True)
+        If C.Esquerda.FatorBalanco > 0 Then RotacaoAEsquerda(C.Esquerda)
 
         ' Agora que o balanço de B é menor ou igual a 0 fazer uma rotação simples.
         '       C
