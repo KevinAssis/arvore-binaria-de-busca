@@ -26,23 +26,22 @@ Public Class Arvore(Of T As IComparable)
     Private Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
 
         If (EsteNo.Vazio) Then
-            ' _Valor não foi encontrado, mas pode ser adicionado nesta posição.
+            ' Valor não foi encontrado, mas pode ser adicionado nesta posição.
             Return EsteNo
         End If
 
         Dim Diferenca = EsteNo.Valor.CompareTo(Valor)
 
-        Select Case Diferenca
-            Case 0
-                ' _Valor encontrado neste nó.
-                Return EsteNo
-            Case -1
-                ' _Valor é maior do que este nó.
-                Return Encontrar(Valor, EsteNo.Direita)
-            Case Else
-                ' Case 1, _Valor é menor do que este nó.
-                Return Encontrar(Valor, EsteNo.Esquerda)
-        End Select
+        If Diferenca > 0 Then
+            ' Valor é menor do que este nó.
+            Return Encontrar(Valor, EsteNo.Esquerda)
+        ElseIf Diferenca < 0 Then
+            ' Valor é maior do que este nó.
+            Return Encontrar(Valor, EsteNo.Direita)
+        Else
+            ' Valor encontrado neste nó.
+            Return EsteNo
+        End If
 
     End Function
 

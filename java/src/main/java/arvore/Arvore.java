@@ -34,18 +34,16 @@ public class Arvore<T extends Comparable<T>> {
 
         int diferenca = no.getValor().compareTo(valor);
 
-        return switch (diferenca) {
-
-            // valor encontrado neste nó.
-            case 0 -> no;
-
-            // valor é maior do que este nó.
-            case -1 -> encontrar(valor, no.getDireita());
-
-            // Case 1. valor é menor do que este nó.
-            default -> encontrar(valor, no.getEsquerda());
-
-        };
+        if (diferenca > 0) {
+            // Valor é menor do que este nó.
+            return encontrar(valor, no.getEsquerda());
+        } else if (diferenca < 0) {
+            // Valor é maior do que este nó.
+            return encontrar(valor, no.getDireita());
+        } else {
+            // Valor encontrado neste nó.
+            return no;
+        }
     }
 
     /**
@@ -65,7 +63,7 @@ public class Arvore<T extends Comparable<T>> {
         No<T> noEncontrado = encontrar(valor, raiz);
 
         // Se o nó não é vazio, o valor já existe.
-        // A árvore não aceita valores duplicados.
+        // A árvore não aceita com duplicados.
         if (!noEncontrado.isVazio()) { return false; }
 
         noEncontrado.setValor(valor);
