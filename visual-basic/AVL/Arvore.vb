@@ -51,19 +51,19 @@ Public Class Arvore(Of T As IComparable)
     ''' <param name="Valor"></param>
     ''' <returns></returns>
     Public Function Contem(Valor As T) As Boolean
-        ' Se Encontrar retorna um nó _Vazio isso significa que o _Valor não foi encontrado.
+        ' Se Encontrar retorna um nó vazio isso significa que Valor não foi encontrado.
         Return Not Encontrar(Valor, Raiz).Vazio
     End Function
 
     ''' <summary>
-    ''' Insere este Valor na árvore. Balanceia a árvore caso necessário.
+    ''' Insere este elemento na árvore. Balanceia a árvore caso necessário.
     ''' </summary>
     ''' <param name="Valor"></param>
     ''' <returns></returns>
     Public Function Inserir(Valor As T) As Boolean
         Dim NoEncontrado = Encontrar(Valor, Raiz)
 
-        ' Se o nó não é vazio o Valor já existe.
+        ' Se o nó não é vazio o elemento já existe.
         ' A árvore não aceita valores duplicados.
         If Not NoEncontrado.Vazio Then Return False
 
@@ -90,7 +90,7 @@ Public Class Arvore(Of T As IComparable)
         Dim NoABalancear = NoARemover.Pai
 
         If NoARemover.Altura = 1 Then
-            ' _Altura = 1 significa o mesmo que _Esquerda.Vazio And _Direita.Vazio
+            ' Altura = 1 significa o mesmo que Esquerda.Vazio And Direita.Vazio
             ' Nó folha, apenas retornar aos valores padrão de um nó vazio.
             NoARemover.Esvaziar()
 
@@ -98,10 +98,12 @@ Public Class Arvore(Of T As IComparable)
             ' Tem apenas um filho à direita.
             SubstituirNo(NoARemover, NoARemover.Direita)
             ' Garbage Collector pode liberar o espaço de NoEncontrado.
+
         ElseIf NoARemover.Direita.Vazio Then
             ' Tem apenas um filho à esquerda.
             SubstituirNo(NoARemover, NoARemover.Esquerda)
             ' Garbage Collector pode liberar o espaço de NoEncontrado.
+
         Else
             ' Tem dois filhos.
 
@@ -133,7 +135,7 @@ Public Class Arvore(Of T As IComparable)
     End Sub
 
     ''' <summary>
-    ''' Remove o Valor da árvore se ele existir. Balanceia a árvore se necessário.
+    ''' Remove o elemento da árvore se ele existir. Balanceia a árvore se necessário.
     ''' </summary>
     ''' <param name="Valor"></param>
     ''' <returns>True se o valor foi removido, False se não está presente.</returns>
@@ -201,7 +203,6 @@ Public Class Arvore(Of T As IComparable)
         Dim B = A.Direita
 
         ' O filho à esquerda de B, mesmo que seja nó vazio, se torna filho à direita de A.
-        ' Utilizando _Direita em vez de Direita para evitar calcular alturas de nós superiores desnecessariamente.
         A.Direita = B.Esquerda
 
         ' Se A era raiz da árvore, agora B se torna raiz.
@@ -249,7 +250,6 @@ Public Class Arvore(Of T As IComparable)
         Dim B = C.Esquerda
 
         ' O filho à direita de B, mesmo que seja nó vazio, se torna filho à esquerda de C.
-        ' Utilizando _Esquerda em vez de Esquerda para evitar calcular alturas de nós superiores desnecessariamente.
         C.Esquerda = B.Direita
 
         ' Se C era raiz da árvore, agora B se torna raiz.
