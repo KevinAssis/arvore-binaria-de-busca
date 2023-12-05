@@ -26,7 +26,6 @@ Public Class No(Of T As IComparable)
     ''' <summary>
     ''' Valor deste nó.
     ''' </summary>
-    ''' <returns></returns>
     Public Property Valor As T
         Get
             Return _Valor
@@ -48,20 +47,17 @@ Public Class No(Of T As IComparable)
     ''' <summary>
     ''' Nós folha possuem filhos vazios que não armazenam valor. Essa variável indica se esse é o caso.
     ''' </summary>
-    ''' <returns></returns>
     Public ReadOnly Property Vazio As Boolean
 
     ''' <summary>
     ''' Altura da subárvore que tem este nó como raiz. Máximo entre as alturas das subárvores direita e esquerda mais 1.
     ''' Folhas tem altura 1. Nós vazios tem altura 0.
     ''' </summary>
-    ''' <returns></returns>
     Public ReadOnly Property Altura As Integer
 
     ''' <summary>
     ''' Nó filho à esquerda deste nó. Modificar Esquerda atualiza seu Pai.
     ''' </summary>
-    ''' <returns></returns>
     Public Property Esquerda As No(Of T)
         Get
             Return _Esquerda
@@ -75,7 +71,6 @@ Public Class No(Of T As IComparable)
     ''' <summary>
     ''' Nó filho à direita deste nó. Modificar Direita atualiza seu Pai.
     ''' </summary>
-    ''' <returns></returns>
     Public Property Direita As No(Of T)
         Get
             Return _Direita

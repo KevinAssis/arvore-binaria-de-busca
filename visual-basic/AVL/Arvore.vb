@@ -49,7 +49,6 @@ Public Class Arvore(Of T As IComparable)
     ''' Verifica se Valor está presente na árvore.
     ''' </summary>
     ''' <param name="Valor"></param>
-    ''' <returns></returns>
     Public Function Contem(Valor As T) As Boolean
         ' Se Encontrar retorna um nó vazio isso significa que Valor não foi encontrado.
         Return Not Encontrar(Valor, Raiz).Vazio
@@ -59,7 +58,6 @@ Public Class Arvore(Of T As IComparable)
     ''' Insere este elemento na árvore. Balanceia a árvore caso necessário.
     ''' </summary>
     ''' <param name="Valor"></param>
-    ''' <returns></returns>
     Public Function Inserir(Valor As T) As Boolean
         Dim NoEncontrado = Encontrar(Valor, Raiz)
 
@@ -119,7 +117,7 @@ Public Class Arvore(Of T As IComparable)
             NoABalancear = Nothing
             ' Como o valor do predecessor está no lugar do valor removido, ele pode ser excluido.
             Remover(Predecessor)
-            ' Anulando a modificação dupla da Contagem por causa da remoção do Predecessor.
+            ' Anulando a modificação dupla da Contagem devido à remoção do Predecessor.
             _Contagem += 1
 
             ' Garbage Collector pode liberar o espaço de NoEncontrado.
@@ -235,7 +233,7 @@ Public Class Arvore(Of T As IComparable)
     ''' <param name="Dupla">Indica se é uma segunda rotação que não deve provocar a atualização desnecessária das alturas.</param>
     Private Sub RotacaoADireita(C As No(Of T), Dupla As Boolean)
 
-        ' Rotação dupla se o balanço de A é maior que 0
+        ' Rotação dupla se o balanço de A é maior que 0.
         '       C
         '   A       x
         ' x   B   x   x
@@ -297,7 +295,6 @@ Public Class Arvore(Of T As IComparable)
     ''' Representação da árvore na vertical. Nó direito fica abaixo do esquerdo.
     ''' Ocupa menos espaço que a horizontal.
     ''' </summary>
-    ''' <returns></returns>
     Public Function ToStringVertical() As String
         Dim Resultado As New StringBuilder
 
@@ -333,7 +330,6 @@ Public Class Arvore(Of T As IComparable)
     ''' Represtentação da árvore em texto na horizontal.
     ''' Nós irmãos ficam lado a lado.
     ''' </summary>
-    ''' <returns></returns>
     Public Overrides Function ToString() As String
 
         If Raiz.Vazio Then Return ""
@@ -445,7 +441,6 @@ Public Class Arvore(Of T As IComparable)
     ''' </summary>
     ''' <param name="num">Quantas vezes deve repetir.</param>
     ''' <param name="str">String a ser repetida.</param>
-    ''' <returns></returns>
     Private Function MultStr(num As Integer, str As String) As String
         Dim strBuilder As New StringBuilder
         For I = 1 To num
