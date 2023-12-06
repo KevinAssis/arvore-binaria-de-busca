@@ -274,7 +274,7 @@ Public Class Arvore(Of T As IComparable)
             Raiz = Novo
             Novo.Pai = Nothing
             ' Se Antigo era um filho à esquerda, Novo o substitui. Compara por referência.
-        ElseIf Antigo.Pai.Esquerda.Equals(Antigo) Then
+        ElseIf Antigo.Pai.Esquerda Is Antigo Then
             Antigo.Pai.Esquerda = Novo
             ' Se Antigo era filho à direita, Novo o substitui.
         Else
