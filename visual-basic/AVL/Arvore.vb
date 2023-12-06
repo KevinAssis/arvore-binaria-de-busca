@@ -10,34 +10,34 @@ Imports System.Runtime.CompilerServices
 ''' <typeparam name="T">Tipo dos elementos armazenados na árvore.</typeparam>
 Public Class Arvore(Of T As IComparable)
 
-    Private Raiz As New No(Of T)(Nothing)
+    Friend Raiz As New No(Of T)(Nothing)
     Public ReadOnly Property Contagem
 
     ''' <summary>
     ''' Função recursiva que desce na árvore até encontrar o elemento
     ''' comparando ele a cada nó.
     ''' </summary>
-    ''' <param name="Valor">Elemento procurado</param>
+    ''' <param name="Elemento">Elemento procurado</param>
     ''' <param name="EsteNo">Nó que será examinado nesta iteração.</param>
     ''' <returns>
-    '''     O nó contendo o valor, se encontrado, 
-    '''     ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
+    '''     O nó contendo o elemento, se encontrado, 
+    '''     ou o nó vazio onde o elemento deveria ser inserido, se não encontrado.
     ''' </returns>
-    Private Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
+    Private Function Encontrar(Elemento As T, EsteNo As No(Of T)) As No(Of T)
 
         If (EsteNo.Vazio) Then
             ' Elemento não foi encontrado, mas pode ser adicionado nesta posição.
             Return EsteNo
         End If
 
-        Dim Diferenca = EsteNo.Valor.CompareTo(Valor)
+        Dim Diferenca = EsteNo.Elemento.CompareTo(Elemento)
 
         If Diferenca > 0 Then
             ' Elemento vem antes deste nó.
-            Return Encontrar(Valor, EsteNo.Esquerda)
+            Return Encontrar(Elemento, EsteNo.Esquerda)
         ElseIf Diferenca < 0 Then
             ' Elemento vem depois deste nó.
-            Return Encontrar(Valor, EsteNo.Direita)
+            Return Encontrar(Elemento, EsteNo.Direita)
         Else
             ' Elemento encontrado neste nó.
             Return EsteNo
@@ -46,27 +46,27 @@ Public Class Arvore(Of T As IComparable)
     End Function
 
     ''' <summary>
-    ''' Verifica se Valor está presente na árvore.
+    ''' Verifica se Elemento está presente na árvore.
     ''' </summary>
-    ''' <param name="Valor">Elemento procurado.</param>
-    Public Function Contem(Valor As T) As Boolean
-        ' Se o método Encontrar retorna um nó vazio, isso significa que Valor não foi encontrado.
-        Return Not Encontrar(Valor, Raiz).Vazio
+    ''' <param name="Elemento">Elemento procurado.</param>
+    Public Function Contem(Elemento As T) As Boolean
+        ' Se o método Encontrar retorna um nó vazio, isso significa que Elemento não foi encontrado.
+        Return Not Encontrar(Elemento, Raiz).Vazio
     End Function
 
     ''' <summary>
     ''' Insere este elemento na árvore. Balanceia a árvore caso necessário.
     ''' </summary>
-    ''' <param name="Valor"></param>
+    ''' <param name="Elemento"></param>
     ''' <returns>True se o elemento foi inserido com sucesso, false se já existe na árvore.</returns>
-    Public Function Inserir(Valor As T) As Boolean
-        Dim NoEncontrado = Encontrar(Valor, Raiz)
+    Public Function Inserir(Elemento As T) As Boolean
+        Dim NoEncontrado = Encontrar(Elemento, Raiz)
 
         ' Se o nó não é vazio o elemento já existe.
-        ' A árvore não aceita valores duplicados.
+        ' A árvore não aceita elementos duplicados.
         If Not NoEncontrado.Vazio Then Return False
 
-        NoEncontrado.Valor = Valor
+        NoEncontrado.Elemento = Elemento
 
         _Contagem += 1
 
@@ -112,11 +112,11 @@ Public Class Arvore(Of T As IComparable)
                 Predecessor = Predecessor.Direita
             Loop
 
-            ' Coloca o valor mais alto da subárvore esquerda no lugar do valor removido.
-            NoARemover.Valor = Predecessor.Valor
+            ' Coloca o elemento mais à direita da subárvore esquerda no lugar do elemento removido.
+            NoARemover.Elemento = Predecessor.Elemento
             ' A árvore será balanceada quando Predecessor for removido.
             NoABalancear = Nothing
-            ' Como o valor do predecessor está no lugar do valor removido, ele pode ser excluido.
+            ' Como o elemento predecessor está no lugar do elemento removido, ele pode ser excluido.
             Remover(Predecessor)
             ' Anulando a modificação dupla da Contagem devido à remoção do Predecessor.
             _Contagem += 1
@@ -136,10 +136,10 @@ Public Class Arvore(Of T As IComparable)
     ''' <summary>
     ''' Remove o elemento da árvore se ele existir. Balanceia a árvore se necessário.
     ''' </summary>
-    ''' <param name="Valor"></param>
-    ''' <returns>True se o valor foi removido, False se não está presente.</returns>
-    Public Function Remover(Valor As T) As Boolean
-        Dim NoEncontrado = Encontrar(Valor, Raiz)
+    ''' <param name="Elemento"></param>
+    ''' <returns>True se o elemento foi removido, False se não está presente.</returns>
+    Public Function Remover(Elemento As T) As Boolean
+        Dim NoEncontrado = Encontrar(Elemento, Raiz)
 
         If NoEncontrado.Vazio Then Return False
 
@@ -300,7 +300,7 @@ Public Class Arvore(Of T As IComparable)
     End Function
 
     ''' <summary>
-    ''' Para cada nó adiciona ao Resultado seu valor após a indentação e um indicador de esquerda ou direita.
+    ''' Adiciona cada nó à Representação após a indentação e um indicador de esquerda ou direita.
     ''' </summary>
     ''' <param name="Representacao">StringBuilder que contém a representação da árvore.</param>
     ''' <param name="Nivel">Profundidade do nó que será representada como indentação. 0 para raiz.</param>
@@ -312,7 +312,7 @@ Public Class Arvore(Of T As IComparable)
         Representacao.Append(
             StrDup(Nivel, "  ") +
             Posicao + " " +
-            EsteNo.Valor.ToString +
+            EsteNo.Elemento.ToString +
             vbNewLine
         )
 
@@ -337,8 +337,8 @@ Public Class Arvore(Of T As IComparable)
         }
         ' A String que será retornada.
         Dim Resultado As New StringBuilder("")
-        ' Número de caracteres necessários para representar o maior Valor da árvore.
-        Dim LarguraNo = Raiz.Valor.ToString.Length
+        ' Número de caracteres necessários para representar o maior elemento da árvore.
+        Dim LarguraNo = Raiz.Elemento.ToString.Length
         ' Se um dos nós deste nível tem filhos então o loop continua.
         Dim Continuar = True
 
@@ -353,7 +353,7 @@ Public Class Arvore(Of T As IComparable)
                     ProximaLinha.AddRange({Nothing, Nothing})
                 Else
                     ' Largura deste nó.
-                    Dim NLength = N.valor.ToString.Length
+                    Dim NLength = N.Elemento.ToString.Length
                     If NLength > LarguraNo Then
                         LarguraNo = NLength
                     End If
@@ -416,7 +416,7 @@ Public Class Arvore(Of T As IComparable)
                 If IsNothing(N) Then
                     Resultado.Append(NoVazio)
                 Else
-                    Resultado.Append(N.Valor.ToString.PadLeft(LarguraNo))
+                    Resultado.Append(N.Elemento.ToString.PadLeft(LarguraNo))
                 End If
                 If J <> Linha.Count - 1 Then
                     Resultado.Append(StrDup(CInt(Espacamento), EspacoVazio))

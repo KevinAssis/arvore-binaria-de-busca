@@ -1,9 +1,9 @@
 ﻿''' <summary>
 ''' Classe representando nó que só pode ser usada numa classe Arvore deste projeto.
 ''' </summary>
-''' <typeparam name="T">Tipo do valor armazenado nos nós.</typeparam>
+''' <typeparam name="T">Tipo do elemento armazenado nos nós.</typeparam>
 Public Class No(Of T As IComparable)
-    Private _Valor As T
+    Private _Elemento As T
 
     Private _Esquerda As No(Of T)
     Private _Direita As No(Of T)
@@ -25,12 +25,12 @@ Public Class No(Of T As IComparable)
     ''' <summary>
     ''' Elemento associado a este nó.
     ''' </summary>
-    Public Property Valor As T
+    Public Property Elemento As T
         Get
-            Return _Valor
+            Return _Elemento
         End Get
-        Set(Valor As T)
-            _Valor = Valor
+        Set(Elemento As T)
+            _Elemento = Elemento
 
             If _Vazio Then
                 ' Para cada folha com um elemento são criados nós vazios como filhos.
@@ -61,9 +61,9 @@ Public Class No(Of T As IComparable)
         Get
             Return _Esquerda
         End Get
-        Set(Valor As No(Of T))
-            _Esquerda = Valor
-            Valor.Pai = Me
+        Set(Esquerda As No(Of T))
+            _Esquerda = Esquerda
+            Esquerda.Pai = Me
         End Set
     End Property
 
@@ -74,9 +74,9 @@ Public Class No(Of T As IComparable)
         Get
             Return _Direita
         End Get
-        Set(Valor As No(Of T))
-            _Direita = Valor
-            Valor.Pai = Me
+        Set(Direita As No(Of T))
+            _Direita = Direita
+            Direita.Pai = Me
         End Set
     End Property
 
@@ -104,7 +104,7 @@ Public Class No(Of T As IComparable)
     ''' Retorna todos os valores ao padrão de um nó vazio.
     ''' </summary>
     Public Sub Esvaziar()
-        _Valor = Nothing
+        _Elemento = Nothing
         _Vazio = True
         _Esquerda = Nothing
         _Direita = Nothing

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,7 +163,7 @@ class ArvoreTest {
     // Inserção repetida
 
     /**
-     * Testa se um valor pode ser inserido duas vezes e o que acontece quando é feita essa tentativa.
+     * Testa se um elemento pode ser inserido duas vezes e o que acontece quando é feita essa tentativa.
      */
     @Test
     public void insercaoRepetida() {
@@ -190,13 +189,13 @@ class ArvoreTest {
 
     }
 
-    // Remoção de valor não presente.
+    // Remoção de elemento não presente.
 
     /**
-     * Testa o que acontece quando se tenta remover um valor que não está na árvore.
+     * Testa o que acontece quando se tenta remover um elemento que não está na árvore.
      */
     @Test
-    public void remocaoDeValorNaoPresente() {
+    public void remocaoDeElementoNaoPresente() {
 
         Arvore<Integer> arvore = new Arvore<>();
 
@@ -217,7 +216,7 @@ class ArvoreTest {
         }
 
         // Espera-se que a contagem não tenha sido alterada
-        // pelas tentativas de remover valores que não estão na árvore.
+        // pelas tentativas de remover elementos que não estão na árvore.
         assertEquals(indiceMetade, arvore.getContagem());
 
         // Espera-se que os números inseridos ainda estejam na árvore.

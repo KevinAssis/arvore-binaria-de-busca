@@ -170,7 +170,7 @@ Imports Demonstracao
     ' Inserção repetida.
 
     ''' <summary>
-    ''' Testa se um valor pode ser inserido duas vezes e o que acontece quando é feita essa tentativa.
+    ''' Testa se um elemento pode ser inserido duas vezes e o que acontece quando é feita essa tentativa.
     ''' </summary>
     <TestMethod()> Public Sub InsercaoRepetida()
         Dim Arv = New Arvore(Of Integer)
@@ -194,12 +194,12 @@ Imports Demonstracao
 
     End Sub
 
-    ' Remoção de valor não presente.
+    ' Remoção de elemento não presente.
 
     ''' <summary>
-    ''' Testa o que acontece quando se tenta remover um valor que não está na árvore.
+    ''' Testa o que acontece quando se tenta remover um elemento que não está na árvore.
     ''' </summary>
-    <TestMethod()> Public Sub RemocaoDeValorNaoPresente()
+    <TestMethod()> Public Sub RemocaoDeElementoNaoPresente()
 
         Dim Arv = New Arvore(Of Integer)
 
@@ -219,7 +219,7 @@ Imports Demonstracao
             Assert.IsFalse(Resultado)
         Next
 
-        ' Espera-se a contagem não tenha sido alterada pelas tentativas de remover valores que não estão na árvore.
+        ' Espera-se a contagem não tenha sido alterada pelas tentativas de remover elementos que não estão na árvore.
         Assert.AreEqual(IndiceMetade, Arv.Contagem)
 
         ' Espera-se que os números inseridos ainda estejam na árvore.

@@ -2,13 +2,13 @@ package arvore;
 
 /**
  * Classe representando nó que só pode ser usada numa classe Arvore deste pacote.
- * @param <T> Tipo do valor armazenado nos nós.
+ * @param <T> Tipo do elemento armazenado nos nós.
  */
 public class No<T extends Comparable<T>> {
     /**
      * Elemento associado a este nó.
      */
-    private T valor;
+    private T elemento;
     /**
      * Filho da esquerda.
      */
@@ -42,7 +42,7 @@ public class No<T extends Comparable<T>> {
 
     // Getters
 
-    public T getValor() { return valor; }
+    public T getElemento() { return elemento; }
 
     public No<T> getEsquerda() { return esquerda; }
 
@@ -68,8 +68,8 @@ public class No<T extends Comparable<T>> {
     /**
      * Atribui o elemento deste nó. Cada nó folha com um elemento possui nós vazios como filhos.
      */
-    public void setValor(T valor) {
-        this.valor = valor;
+    public void setElemento(T elemento) {
+        this.elemento = elemento;
 
         if (vazio) {
             esquerda = new No<>(this);
@@ -110,7 +110,7 @@ public class No<T extends Comparable<T>> {
      */
     public void esvaziar() {
         vazio = true;
-        valor = null;
+        elemento = null;
         esquerda = null;
         direita = null;
         altura = 0;

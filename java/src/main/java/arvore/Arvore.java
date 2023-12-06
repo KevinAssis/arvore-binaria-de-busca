@@ -20,26 +20,26 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Função recursiva que desce na árvore até encontrar o elemento, comparando ele a cada nó.
-     * @param valor Elemento procurado.
+     * @param elemento Elemento procurado.
      * @param no Nó que será examinado nesta iteração.
-     * @return O nó contendo o valor, se encontrado,
-     * ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
+     * @return O nó contendo o elemento, se encontrado,
+     * ou o nó vazio onde o elemento deveria ser inserido, se não encontrado.
      */
-    private No<T> encontrar(T valor, No<T> no) {
+    private No<T> encontrar(T elemento, No<T> no) {
 
         if (no.isVazio()) {
             // Elemento não foi encontrado, mas pode ser adicionado nesta posição.
             return no;
         }
 
-        int diferenca = no.getValor().compareTo(valor);
+        int diferenca = no.getElemento().compareTo(elemento);
 
         if (diferenca > 0) {
             // Elemento vem antes deste nó.
-            return encontrar(valor, no.getEsquerda());
+            return encontrar(elemento, no.getEsquerda());
         } else if (diferenca < 0) {
             // Elemento vem depois deste nó.
-            return encontrar(valor, no.getDireita());
+            return encontrar(elemento, no.getDireita());
         } else {
             // Elemento encontrado neste nó.
             return no;
@@ -48,26 +48,26 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Verifica se elemento está presente na árvore.
-     * @param valor Elemento procurado.
+     * @param elemento Elemento procurado.
      */
-    public boolean contem(T valor) {
-        // Se o método encontrar retorna um nó vazio, isso significa que o valor não foi encontrado.
-        return !encontrar(valor, raiz).isVazio();
+    public boolean contem(T elemento) {
+        // Se o método encontrar retorna um nó vazio, isso significa que o elemento não foi encontrado.
+        return !encontrar(elemento, raiz).isVazio();
     }
 
     /**
      * Insere este elemento na árvore. Balanceia a árvore caso necessário.
-     * @return True se o valor foi inserido com sucesso, false se já existe na árvore.
+     * @return True se o elemento foi inserido com sucesso, false se já existe na árvore.
      */
-    public boolean inserir(T valor) {
+    public boolean inserir(T elemento) {
 
-        No<T> noEncontrado = encontrar(valor, raiz);
+        No<T> noEncontrado = encontrar(elemento, raiz);
 
-        // Se o nó não é vazio, o valor já existe.
+        // Se o nó não é vazio, o elemento já existe.
         // A árvore não aceita com duplicados.
         if (!noEncontrado.isVazio()) { return false; }
 
-        noEncontrado.setValor(valor);
+        noEncontrado.setElemento(elemento);
 
         contagem += 1;
 
@@ -114,11 +114,11 @@ public class Arvore<T extends Comparable<T>> {
                 predecessor =  predecessor.getDireita();
             }
 
-            // Coloca o valor mais alto da subárvore esquerda no lugar do valor removido.
-            no.setValor(predecessor.getValor());
+            // Coloca o elemento mais à direita da subárvore esquerda no lugar do elemento removido.
+            no.setElemento(predecessor.getElemento());
             // A árvore será balanceada quando o predecessor for removido.
             noABalancear = null;
-            // Como o valor do predecessor está no lugar do valor removido, ele pode ser excluido.
+            // Como o elemento predecessor está no lugar do elemento removido, ele pode ser excluido.
             remover(predecessor);
             // Anulando a modificação dupla da contagem devido à remoção do predecessor.
             contagem += 1;
@@ -136,12 +136,12 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Remove elemento da árvore se ele existir. Balanceia a árvore se necessário.
-     * @param valor Elemento a ser removido.
-     * @return True se o valor foi removido, false se não está presente.
+     * @param elemento Elemento a ser removido.
+     * @return True se o elemento foi removido, false se não está presente.
      */
-    public boolean remover(T valor) {
+    public boolean remover(T elemento) {
 
-        No<T> noEncontrado = encontrar(valor, raiz);
+        No<T> noEncontrado = encontrar(elemento, raiz);
 
         if (noEncontrado.isVazio()) { return false; }
 
@@ -308,7 +308,7 @@ public class Arvore<T extends Comparable<T>> {
     }
 
     /**
-     * Para cada nó, adiciona à representação o valor após a indentação e um indicador de esquerda ou direita.
+     * Adiciona cada nó à representação após a indentação e um indicador de esquerda ou direita.
      * @param representacao StringBuilder que contém a representação da árvore.
      * @param nivel Profundidade do nó que será representada como indentação. 0 para raiz.
      */
@@ -318,7 +318,7 @@ public class Arvore<T extends Comparable<T>> {
 
         representacao.append(
                 "%s%c %s%n"
-                        .formatted(" ".repeat(nivel), posicao, no.getValor().toString())
+                        .formatted(" ".repeat(nivel), posicao, no.getElemento().toString())
         );
 
         toStringVerticalRecursivo(representacao, nivel + 1, no.getEsquerda(), 'E');
@@ -342,8 +342,8 @@ public class Arvore<T extends Comparable<T>> {
 
         // A ‘String’ que será retornada.
         StringBuilder representacao = new StringBuilder();
-        // Número de caracteres necessários para representar o maior valor da árvore.
-        int larguraMaxima =  raiz.getValor().toString().length();
+        // Número de caracteres necessários para representar o maior elemento da árvore.
+        int larguraMaxima =  raiz.getElemento().toString().length();
         boolean continuar = true;
 
         while (continuar) {
@@ -359,7 +359,7 @@ public class Arvore<T extends Comparable<T>> {
                 } else {
 
                     // Largura deste nó.
-                    int larguraNo = no.getValor().toString().length();
+                    int larguraNo = no.getElemento().toString().length();
                     if (larguraNo > larguraMaxima) {
                         larguraMaxima = larguraNo;
                     }
@@ -418,7 +418,7 @@ public class Arvore<T extends Comparable<T>> {
                 if (no == null) {
                     representacao.append(noVazio);
                 } else {
-                    representacao.append(String.format("%" + larguraMaxima + "s", no.getValor()));
+                    representacao.append(String.format("%" + larguraMaxima + "s", no.getElemento()));
                 }
                 if (j != linha.size() - 1) {
                     representacao.append(espacoVazio.repeat(espacamento));
