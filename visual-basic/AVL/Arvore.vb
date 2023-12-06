@@ -10,7 +10,7 @@ Imports System.Runtime.CompilerServices
 ''' <typeparam name="T">Tipo dos elementos armazenados na árvore.</typeparam>
 Public Class Arvore(Of T As IComparable)
 
-    Public Raiz As New No(Of T)(Nothing)
+    Private Raiz As New No(Of T)(Nothing)
     Public ReadOnly Property Contagem
 
     ''' <summary>
