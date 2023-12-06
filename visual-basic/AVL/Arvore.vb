@@ -162,9 +162,9 @@ Public Class Arvore(Of T As IComparable)
 
         ' Se -1 <= FatorBalanco <= 1 o nó já está balanceado e nada precisa ser feito.
         If Balanco < -1 Then
-            RotacaoADireita(N, False)
+            RotacaoADireita(N)
         ElseIf Balanco > 1 Then
-            RotacaoAEsquerda(N, False)
+            RotacaoAEsquerda(N)
         End If
 
         If N.Pai IsNot Nothing Then
