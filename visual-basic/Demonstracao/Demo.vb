@@ -35,9 +35,9 @@ Module Demo
             RemoverListaArvore(Numeros, Arv)
 
             Console.WriteLine(
-                "Aperte R para executar novamente." + NL +
+                "Digite R para executar novamente." + NL +
                 "Qualquer outra tecla para terminar o programa." + NL +
-                "Caso a formatação esteja confusa redimensione a janela e aperte R." + NL
+                "Caso a formatação esteja confusa redimensione a janela e digite R." + NL
             )
 
             Resposta = Console.ReadKey().Key
@@ -46,15 +46,18 @@ Module Demo
     End Sub
 
     ''' <summary>
-    ''' Produz um array de inteiros aleatórios. Mínimo 0.
+    ''' Produz um array de inteiros aleatórios, sem repetição, entre 0 e Maximo.
     ''' </summary>
-    ''' <param name="Tamanho">Tamanho do array.</param>
-    ''' <param name="Maximo">Valor máximo permitido.</param>
+    ''' <param name="Tamanho">Número de itens no array.</param>
+    ''' <param name="Maximo">Limite superior, não incluido, para os valores do array.</param>
     ''' <returns>Um Array de Integer contendo a lista aleatória.</returns>
     Friend Function ArrayAleatorio(Tamanho As Integer, Maximo As Integer) As Integer()
-        ' Essa forma de produzir o array evita repetições.
+
+        Dim TamanhoAceitavel = Math.Min(Tamanho, Maximo)
+
         Return Enumerable.Range(0, Maximo).OrderBy(Function(r) RNG.Next).
-            Take(Tamanho).ToArray
+            Take(TamanhoAceitavel).ToArray
+
     End Function
 
     ''' <summary>
@@ -78,7 +81,7 @@ Module Demo
     End Function
 
     ''' <summary>
-    ''' Remove os elementos de um array que estiverem presentes em uma árvore.
+    ''' Remove de uma árvore os elementos de um array que estiverem presentes na árvore.
     ''' </summary>
     ''' <param name="Numeros">Array de Integer contendo os elementos a serem removidos.</param>
     ''' <param name="Arv">Arvore(Of Integer) de onde devem ser removidos os elementos.</param>

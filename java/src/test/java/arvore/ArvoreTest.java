@@ -1,6 +1,5 @@
 package arvore;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ class ArvoreTest {
     private void testarBalanceamento(No<Integer> no) {
 
         if (!no.isVazio()) {
-            // Recalcula alturas dos filhos.
             no.getEsquerda().atualizarAltura();
             no.getDireita().atualizarAltura();
         }
@@ -93,7 +91,7 @@ class ArvoreTest {
     // Altura da árvore
 
     /**
-     * Função recursiva que calcula a altura deste nó por percorrer todos os seus decendentes.
+     * Método recursivo que calcula a altura deste nó por percorrer todos os seus decendentes.
      * A fórmula usada é a mesma da classe Arvore, porém, é calculada no momento do teste
      * para verificar se as alturas armazenadas nos nós estão corretas.
      * @param no Nó cuja altura deve ser calculada.
@@ -173,19 +171,17 @@ class ArvoreTest {
 
         Arvore<Integer> arvore = new Arvore<>();
 
-        // Insere todos os números da lista.
         numeros.forEach(n -> {
             boolean resultado =  arvore.inserir(n);
-            // O resultado de um inserção bem sucedida é true.
+            // Inserção bem sucedida.
             assertTrue(resultado);
         });
 
         Collections.shuffle(numeros);
 
-        // Insere novamente todos os números da lista.
         numeros.forEach(n -> {
             boolean resultado = arvore.inserir(n);
-            // O resultado de uma inserção repetida é false.
+            // Inserção repetida.
             assertFalse(resultado);
         });
 

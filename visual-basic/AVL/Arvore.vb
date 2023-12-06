@@ -5,19 +5,19 @@ Imports System.Runtime.CompilerServices
 <Assembly: InternalsVisibleTo("Teste")>
 
 ''' <summary>
-''' Árvore binária de busca que é balanceada automaticamente por meio do algoritmo AVL.
+''' Árvore binária de busca balanceada automaticamente por meio do algoritmo AVL.
 ''' </summary>
-''' <typeparam name="T">Tipo dos valores armazenados na árvore.</typeparam>
+''' <typeparam name="T">Tipo dos elementos armazenados na árvore.</typeparam>
 Public Class Arvore(Of T As IComparable)
 
     Public Raiz As New No(Of T)(Nothing)
     Public ReadOnly Property Contagem
 
     ''' <summary>
-    ''' Função recursiva que desce na árvore até encontrar o Valor
+    ''' Função recursiva que desce na árvore até encontrar o elemento
     ''' comparando ele a cada nó.
     ''' </summary>
-    ''' <param name="Valor"></param>
+    ''' <param name="Valor">Elemento procurado</param>
     ''' <param name="EsteNo">Nó que será examinado nesta iteração.</param>
     ''' <returns>
     '''     O nó contendo o valor, se encontrado, 
@@ -26,20 +26,20 @@ Public Class Arvore(Of T As IComparable)
     Private Function Encontrar(Valor As T, EsteNo As No(Of T)) As No(Of T)
 
         If (EsteNo.Vazio) Then
-            ' Valor não foi encontrado, mas pode ser adicionado nesta posição.
+            ' Elemento não foi encontrado, mas pode ser adicionado nesta posição.
             Return EsteNo
         End If
 
         Dim Diferenca = EsteNo.Valor.CompareTo(Valor)
 
         If Diferenca > 0 Then
-            ' Valor é menor do que este nó.
+            ' Elemento vem antes deste nó.
             Return Encontrar(Valor, EsteNo.Esquerda)
         ElseIf Diferenca < 0 Then
-            ' Valor é maior do que este nó.
+            ' Elemento vem depois deste nó.
             Return Encontrar(Valor, EsteNo.Direita)
         Else
-            ' Valor encontrado neste nó.
+            ' Elemento encontrado neste nó.
             Return EsteNo
         End If
 
@@ -48,9 +48,9 @@ Public Class Arvore(Of T As IComparable)
     ''' <summary>
     ''' Verifica se Valor está presente na árvore.
     ''' </summary>
-    ''' <param name="Valor"></param>
+    ''' <param name="Valor">Elemento procurado.</param>
     Public Function Contem(Valor As T) As Boolean
-        ' Se Encontrar retorna um nó vazio isso significa que Valor não foi encontrado.
+        ' Se o método Encontrar retorna um nó vazio, isso significa que Valor não foi encontrado.
         Return Not Encontrar(Valor, Raiz).Vazio
     End Function
 
@@ -58,6 +58,7 @@ Public Class Arvore(Of T As IComparable)
     ''' Insere este elemento na árvore. Balanceia a árvore caso necessário.
     ''' </summary>
     ''' <param name="Valor"></param>
+    ''' <returns>True se o elemento foi inserido com sucesso, false se já existe na árvore.</returns>
     Public Function Inserir(Valor As T) As Boolean
         Dim NoEncontrado = Encontrar(Valor, Raiz)
 
@@ -89,7 +90,7 @@ Public Class Arvore(Of T As IComparable)
 
         If NoARemover.Altura = 1 Then
             ' Altura = 1 significa o mesmo que Esquerda.Vazio And Direita.Vazio
-            ' Nó folha, apenas retornar aos valores padrão de um nó vazio.
+            ' Nó folha.
             NoARemover.Esvaziar()
 
         ElseIf NoARemover.Esquerda.Vazio Then
@@ -150,14 +151,13 @@ Public Class Arvore(Of T As IComparable)
     ' Balanceamento
 
     ''' <summary>
-    ''' Verifica o balanço do nó N e, dependendo do valor, realiza rotações para tornar esta subárvore balanceada.
+    ''' Verifica o balanço do nó N e, dependendo do valor, realiza rotações para balancear a subárvore.
     ''' </summary>
     ''' <param name="N">Nó que será verificado e balanceado.</param>
     Private Sub Balancear(N As No(Of T))
 
         N.AtualizarAltura()
 
-        ' Substitui a propriedade para evitar recalcular.
         Dim Balanco = N.FatorBalanco
 
         ' Se -1 <= FatorBalanco <= 1 o nó já está balanceado e nada precisa ser feito.
@@ -196,7 +196,6 @@ Public Class Arvore(Of T As IComparable)
         '   x       B
         ' x   x   x   C
 
-        ' Salvando referência a B antes de substituí-lo.
         Dim B = A.Direita
 
         ' O filho à esquerda de B, mesmo que seja nó vazio, se torna filho à direita de A.
@@ -212,7 +211,6 @@ Public Class Arvore(Of T As IComparable)
         '       B
         '   A       C
 
-        ' Atualizando a alturas dos nós afetados, A, B e C.
         ' Os nós acima desta subárvore serão atualizados mais tarde porque Balancear() chama AtualizarAltura para todos eles.
         A.AtualizarAltura()
         B.AtualizarAltura()
@@ -242,7 +240,6 @@ Public Class Arvore(Of T As IComparable)
         '   B       x
         ' A   x   x   x
 
-        ' Salvando referência a B antes de substituí-lo.
         Dim B = C.Esquerda
 
         ' O filho à direita de B, mesmo que seja nó vazio, se torna filho à esquerda de C.
@@ -258,7 +255,6 @@ Public Class Arvore(Of T As IComparable)
         '       B
         '   A       C
 
-        ' Atualizando a alturas dos nós afetados, A, B e C.
         ' Os nós acima desta subárvore serão atualizados mais tarde porque Balancear() chama AtualizarAltura para todos eles.
         B.Esquerda.AtualizarAltura()
         B.AtualizarAltura()
@@ -269,15 +265,15 @@ Public Class Arvore(Of T As IComparable)
     ''' <summary>
     ''' Atualiza o Pai de Novo por colocá-lo no lugar de Antigo e atualiza a raiz da árvore se necessário.
     ''' </summary>
-    ''' <param name="Antigo"></param>
-    ''' <param name="Novo"></param>
+    ''' <param name="Antigo">Nó que deve ser substituido.</param>
+    ''' <param name="Novo">Nó que vai ser colocado na posição de antigo.</param>
     Private Sub SubstituirNo(Antigo As No(Of T), Novo As No(Of T))
 
         ' Se Antigo era a raiz da árvore, agora Novo se torna raiz.
         If Antigo.Pai Is Nothing Then
             Raiz = Novo
             Novo.Pai = Nothing
-            ' Se Antigo era um filho à esquerda, Novo o substitui.
+            ' Se Antigo era um filho à esquerda, Novo o substitui. Compara por referência.
         ElseIf Antigo.Pai.Esquerda.Equals(Antigo) Then
             Antigo.Pai.Esquerda = Novo
             ' Se Antigo era filho à direita, Novo o substitui.
@@ -294,33 +290,34 @@ Public Class Arvore(Of T As IComparable)
     ''' Ocupa menos espaço que a horizontal.
     ''' </summary>
     Public Function ToStringVertical() As String
+
         Dim Resultado As New StringBuilder
 
-        ToStringVerticalRecursivo(Resultado, 0, Raiz, "R")
+        ToStringVerticalRecursivo(Resultado, 0, Raiz, "*")
 
         Return Resultado.ToString
 
     End Function
 
     ''' <summary>
-    ''' Para cada nó adiciona ao Resultado seu valor após a indentação e um indicador de raiz, esquerda ou direita.
+    ''' Para cada nó adiciona ao Resultado seu valor após a indentação e um indicador de esquerda ou direita.
     ''' </summary>
-    ''' <param name="Resultado">StringBuilder que contém a representação da árvore.</param>
+    ''' <param name="Representacao">StringBuilder que contém a representação da árvore.</param>
     ''' <param name="Nivel">Profundidade do nó que será representada como indentação. 0 para raiz.</param>
     ''' <param name="EsteNo"></param>
-    Private Sub ToStringVerticalRecursivo(ByRef Resultado As StringBuilder, Nivel As Integer, EsteNo As No(Of T), Posicao As String)
+    Private Sub ToStringVerticalRecursivo(ByRef Representacao As StringBuilder, Nivel As Integer, EsteNo As No(Of T), Posicao As String)
 
         If EsteNo.Vazio Then Return
 
-        Resultado.Append(
-            MultStr(Nivel, "  ") +
+        Representacao.Append(
+            StrDup(Nivel, "  ") +
             Posicao + " " +
             EsteNo.Valor.ToString +
             vbNewLine
         )
 
-        ToStringVerticalRecursivo(Resultado, Nivel + 1, EsteNo.Esquerda, "E")
-        ToStringVerticalRecursivo(Resultado, Nivel + 1, EsteNo.Direita, "D")
+        ToStringVerticalRecursivo(Representacao, Nivel + 1, EsteNo.Esquerda, "E")
+        ToStringVerticalRecursivo(Representacao, Nivel + 1, EsteNo.Direita, "D")
 
     End Sub
 
@@ -353,7 +350,6 @@ Public Class Arvore(Of T As IComparable)
             For Each N In Linhas(Linhas.Count - 1)
 
                 If IsNothing(N) Then
-                    ' Para manter o formato da árvore cada espaço vazio produz mais espaço vazio abaixo.
                     ProximaLinha.AddRange({Nothing, Nothing})
                 Else
                     ' Largura deste nó.
@@ -384,14 +380,14 @@ Public Class Arvore(Of T As IComparable)
 
         End While
 
-        Dim CountUltimaLinha = Linhas(Linhas.Count - 1).Count
+        Dim NumNosUltimaLinha = Linhas(Linhas.Count - 1).Count
 
         ' Largura da última linha em função do espaço de um nó.
         ' Espaçamento na ultima linha é igual a um nó vazio.
-        Dim LarguraArvore = (2 * CountUltimaLinha) - 1
+        Dim LarguraArvore = (2 * NumNosUltimaLinha) - 1
 
-        Dim EspacoVazio = MultStr(LarguraNo, " ")
-        Dim NoVazio = MultStr(LarguraNo, "-")
+        Dim EspacoVazio = StrDup(LarguraNo, " ")
+        Dim NoVazio = StrDup(LarguraNo, "-")
         Dim Profundidade = Linhas.Count
 
         For I = 0 To Linhas.Count - 1
@@ -410,7 +406,7 @@ Public Class Arvore(Of T As IComparable)
                     ((Linha.Count - 1) * Espacamento)
 
             ' Adiciona a indentação antes da linha.
-            Resultado.Append(MultStr(
+            Resultado.Append(StrDup(
                     LarguraDestaLinha \ 2,
                 EspacoVazio
             ))
@@ -423,7 +419,7 @@ Public Class Arvore(Of T As IComparable)
                     Resultado.Append(N.Valor.ToString.PadLeft(LarguraNo))
                 End If
                 If J <> Linha.Count - 1 Then
-                    Resultado.Append(MultStr(Espacamento, EspacoVazio))
+                    Resultado.Append(StrDup(CInt(Espacamento), EspacoVazio))
                 End If
             Next
             Resultado.Append(vbNewLine)
@@ -432,19 +428,6 @@ Public Class Arvore(Of T As IComparable)
         Return Resultado.ToString
 
 
-    End Function
-
-    ''' <summary>
-    ''' Função auxiliar que repete uma string várias vezes.
-    ''' </summary>
-    ''' <param name="num">Quantas vezes deve repetir.</param>
-    ''' <param name="str">String a ser repetida.</param>
-    Private Function MultStr(num As Integer, str As String) As String
-        Dim strBuilder As New StringBuilder
-        For I = 1 To num
-            strBuilder.Append(str)
-        Next
-        Return strBuilder.ToString
     End Function
 
 End Class

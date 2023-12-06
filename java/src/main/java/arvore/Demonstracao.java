@@ -57,11 +57,11 @@ public class Demonstracao {
      * @param tamanho Número de itens no array.
      */
     public static ArrayList<Integer> arrayAleatorio(int tamanho, int maximo) {
-        if (tamanho > maximo) {
-            throw new IllegalArgumentException("O tamanho da lista não pode ser maior que o valor máximo pois não há repetição.");
-        }
+
+        int tamanhoAceitavel = Math.min(tamanho, maximo);
+
         Set<Integer> linkedHashSet =  new LinkedHashSet<>();
-        while (linkedHashSet.size() < tamanho) {
+        while (linkedHashSet.size() < tamanhoAceitavel) {
             linkedHashSet.add(random.nextInt(maximo));
         }
         return new ArrayList<>(linkedHashSet);
@@ -69,7 +69,7 @@ public class Demonstracao {
 
     /**
      * Transfere os elementos de um array para uma árvore.
-     * @param numeros Array de Integer a ser colocado na árvore.
+     * @param numeros ArrayList de Integer a ser colocado na árvore.
      * @return Arvore<Integer> contendo os elementos do array.
      */
     private static Arvore<Integer> arrayParaArvore(ArrayList<Integer> numeros) {
@@ -88,7 +88,7 @@ public class Demonstracao {
 
     /**
      * Remove de uma árvore os elementos de um array que estiverem presentes na árvore.
-     * @param numeros Array de Integer contendo os elementos a serem removidos.
+     * @param numeros ArrayList<Integer> contendo os elementos a serem removidos.
      * @param arvore Arvore<Integer> de onde devem ser removidos os elementos.
      */
     private static void removerListaArvore(ArrayList<Integer> numeros, Arvore<Integer> arvore) {

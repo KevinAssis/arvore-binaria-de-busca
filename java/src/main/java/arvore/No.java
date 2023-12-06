@@ -6,7 +6,7 @@ package arvore;
  */
 public class No<T extends Comparable<T>> {
     /**
-     * Valor ou chave associada a este nó.
+     * Elemento associado a este nó.
      */
     private T valor;
     /**
@@ -19,7 +19,7 @@ public class No<T extends Comparable<T>> {
     private No<T> direita;
     protected No<T> pai;
     /**
-     * Folhas possuem filhos vazios que não armazenam valor.
+     * Folhas possuem filhos vazios que não armazenam elementos.
      * Essa variável indica se esse é o caso.
      */
     private boolean vazio;
@@ -33,7 +33,7 @@ public class No<T extends Comparable<T>> {
     // Construtor
 
     /**
-     * Cria uma instância e atribui o seu nó pai.
+     * Cria um nó vazio e atribui o seu pai.
      */
     public No(No<T> pai) {
         this.pai = pai;
@@ -66,13 +66,12 @@ public class No<T extends Comparable<T>> {
     // Setters
 
     /**
-     * Atribui o valor deste nó. Cada nó folha que contém um valor possui nós vazios como filhos.
+     * Atribui o elemento deste nó. Cada nó folha com um elemento possui nós vazios como filhos.
      */
     public void setValor(T valor) {
         this.valor = valor;
 
         if (vazio) {
-            // Cria os filhos vazios.
             esquerda = new No<>(this);
             direita = new No<>(this);
             vazio = false;

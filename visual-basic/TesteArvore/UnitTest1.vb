@@ -2,7 +2,7 @@
 Imports Demonstracao
 
 ''' <summary>
-''' Testes utilizando Integer.
+''' Testes para a classe Arvore utilizando Integer.
 ''' </summary>
 <TestClass()> Public Class UnitTest1
     Const Tamanho = 100
@@ -15,7 +15,7 @@ Imports Demonstracao
     ''' <summary>
     ''' Executa Acao em todos os nós abaixo de NoRaiz, começando pelas folhas e subindo.
     ''' </summary>
-    ''' <param name="Acao">O que deve ser executado.</param>
+    ''' <param name="Acao">O que deve ser executado em cada nó.</param>
     ''' <param name="NoRaiz">Nó raiz da subárvore.</param>
     Private Sub ExecutarDeBaixoParaCima(Acao As Action(Of No(Of Integer)), NoRaiz As No(Of Integer))
 
@@ -60,11 +60,8 @@ Imports Demonstracao
     Private Sub TestarBalanceamento(NoArv As No(Of Integer))
 
         If Not NoArv.Vazio Then
-
-            ' Recalcular alturas dos filhos.
             NoArv.Esquerda.AtualizarAltura()
             NoArv.Direita.AtualizarAltura()
-
         End If
 
         Dim FatorDeBalanco = NoArv.FatorBalanco()
@@ -85,7 +82,6 @@ Imports Demonstracao
         ' Insere os itens da lista de números e verifica o balanceamento a cada inserção.
         For Each N As Integer In Numeros
             Arv.Inserir(N)
-            ' Verifica o balanceamento de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarBalanceamento, Arv.Raiz)
         Next
 
@@ -94,16 +90,15 @@ Imports Demonstracao
         ' Remove todos os itens da lista e verifica o balanceamento a cada remoção.
         For Each N As Integer In Numeros
             Arv.Remover(N)
-            ' Verifica o balanceamento de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarBalanceamento, Arv.Raiz)
         Next
 
     End Sub
 
-' Altura da árvore
+    ' Altura da árvore
 
     ''' <summary>
-    ''' Calcula a altura deste nó por percorrer todos os seus decendentes.
+    ''' Função recursiva que calcula a altura deste nó por percorrer todos os seus decendentes.
     ''' A fórmula usada é a mesma da classe Arvore, porém é calculada no momento do teste 
     ''' para verificar se as alturas armazenadas nos nós estão corretas.
     ''' </summary>
@@ -111,7 +106,10 @@ Imports Demonstracao
     ''' <returns>Máximo entre as alturas dos nós filhos + 1.</returns>
     Private Function CalcularAlturaDeUmNo(NoArv As No(Of Integer)) As Integer
         If NoArv.Vazio Then Return 0
-        Return Math.Max(CalcularAlturaDeUmNo(NoArv.Direita), CalcularAlturaDeUmNo(NoArv.Esquerda)) + 1
+        Return Math.Max(
+            CalcularAlturaDeUmNo(NoArv.Direita),
+            CalcularAlturaDeUmNo(NoArv.Esquerda)
+        ) + 1
     End Function
 
     ''' <summary>
@@ -129,19 +127,15 @@ Imports Demonstracao
 
         Dim Arv = New Arvore(Of Integer)
 
-        ' Insere os números da lista e verifica as alturas a cada inserção.
         For Each N As Integer In Numeros
             Arv.Inserir(N)
-            ' Verifica a altura de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarAlturaDeUmNo, Arv.Raiz)
         Next
 
         EmbaralharNumeros()
 
-        ' Remove todos os números da lista e verifica as alturas a cada remoção.
         For Each N As Integer In Numeros
             Arv.Remover(N)
-            ' Verifica a altura de todos os nós da árvore.
             ExecutarDeBaixoParaCima(AddressOf TestarAlturaDeUmNo, Arv.Raiz)
         Next
 
@@ -155,10 +149,8 @@ Imports Demonstracao
     <TestMethod()> Public Sub Contagem()
 
         Dim Arv = New Arvore(Of Integer)
-        ' Quantos nós deveriam estar presentes na árvore.
         Dim ContagemEsperada = 0
 
-        ' Insere todos os números da lista e verifica a contagem a cada inserção.
         For Each N As Integer In Numeros
             Arv.Inserir(N)
             ContagemEsperada += 1
@@ -167,7 +159,6 @@ Imports Demonstracao
 
         EmbaralharNumeros()
 
-        ' Remove todos os números da lista e verifica a contagem a cada remoção.
         For Each N As Integer In Numeros
             Arv.Remover(N)
             ContagemEsperada -= 1
@@ -184,19 +175,17 @@ Imports Demonstracao
     <TestMethod()> Public Sub InsercaoRepetida()
         Dim Arv = New Arvore(Of Integer)
 
-        ' Insere todos os números da lista.
         For Each N As Integer In Numeros
             Dim ResultadoDaInsercao = Arv.Inserir(N)
-            ' O resultado de uma inserção bem sucedida é True.
+            ' Inserção bem sucedida.
             Assert.IsTrue(ResultadoDaInsercao)
         Next
 
         EmbaralharNumeros()
 
-        ' Insere novamente todos os números da lista.
         For Each N As Integer In Numeros
             Dim ResultadoDaInsercao = Arv.Inserir(N)
-            ' O resultado de uma inserção repetida é False.
+            ' Inserção repetida.
             Assert.IsFalse(ResultadoDaInsercao)
         Next
 
@@ -211,8 +200,10 @@ Imports Demonstracao
     ''' Testa o que acontece quando se tenta remover um valor que não está na árvore.
     ''' </summary>
     <TestMethod()> Public Sub RemocaoDeValorNaoPresente()
+
         Dim Arv = New Arvore(Of Integer)
-' Metade dos números vai estar presente e outra metade não.
+
+        ' Metade dos números vai estar presente e outra metade não.
         Dim IndiceMetade As Integer = Tamanho / 2
 
         ' Insere a primeira metade da lista de números.
@@ -229,8 +220,7 @@ Imports Demonstracao
         Next
 
         ' Espera-se a contagem não tenha sido alterada pelas tentativas de remover valores que não estão na árvore.
-        Dim ContagemEsperada = IndiceMetade
-        Assert.AreEqual(ContagemEsperada, Arv.Contagem)
+        Assert.AreEqual(IndiceMetade, Arv.Contagem)
 
         ' Espera-se que os números inseridos ainda estejam na árvore.
         For I = 0 To IndiceMetade - 1

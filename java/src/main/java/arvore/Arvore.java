@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Árvore binária de busca.
  * Balanceada automaticamente por meio do algoritmo AVL.
- * @param <T> Tipo dos valores armazenados na árvore.
+ * @param <T> Tipo dos elementos armazenados na árvore.
  */
 public class Arvore<T extends Comparable<T>> {
 
@@ -19,8 +19,8 @@ public class Arvore<T extends Comparable<T>> {
     public int getContagem() { return contagem; }
 
     /**
-     * Função recursiva que desce na árvore até encontrar o valor, comparando ele a cada nó.
-     * @param valor Valor procurado.
+     * Função recursiva que desce na árvore até encontrar o elemento, comparando ele a cada nó.
+     * @param valor Elemento procurado.
      * @param no Nó que será examinado nesta iteração.
      * @return O nó contendo o valor, se encontrado,
      * ou o nó vazio onde o valor deveria ser inserido, se não encontrado.
@@ -28,34 +28,35 @@ public class Arvore<T extends Comparable<T>> {
     private No<T> encontrar(T valor, No<T> no) {
 
         if (no.isVazio()) {
-            // valor não foi encontrado, mas pode ser adicionado nesta posição.
+            // Elemento não foi encontrado, mas pode ser adicionado nesta posição.
             return no;
         }
 
         int diferenca = no.getValor().compareTo(valor);
 
         if (diferenca > 0) {
-            // Valor é menor do que este nó.
+            // Elemento vem antes deste nó.
             return encontrar(valor, no.getEsquerda());
         } else if (diferenca < 0) {
-            // Valor é maior do que este nó.
+            // Elemento vem depois deste nó.
             return encontrar(valor, no.getDireita());
         } else {
-            // Valor encontrado neste nó.
+            // Elemento encontrado neste nó.
             return no;
         }
     }
 
     /**
-     * Verifica se valor está presente na árvore.
+     * Verifica se elemento está presente na árvore.
+     * @param valor Elemento procurado.
      */
     public boolean contem(T valor) {
-        // Se encontrar retorna um nó vazio, isso significa que o valor não foi encontrado.
+        // Se o método encontrar retorna um nó vazio, isso significa que o valor não foi encontrado.
         return !encontrar(valor, raiz).isVazio();
     }
 
     /**
-     * Insere este valor na árvore. Balanceia caso necessário.
+     * Insere este elemento na árvore. Balanceia a árvore caso necessário.
      * @return True se o valor foi inserido com sucesso, false se já existe na árvore.
      */
     public boolean inserir(T valor) {
@@ -80,6 +81,7 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Remove o nó da árvore. Balanceia a árvore se necessário.
+     * @param no Nó a remover.
      */
     private void remover(No<T> no) {
 
@@ -90,15 +92,19 @@ public class Arvore<T extends Comparable<T>> {
         if (no.getAltura() == 1) {
             // Altura = 1 significa o mesmo que
             // esquerda.isVazio() && direita.isVazio().
+            // Nó folha
             no.esvaziar();
+
         } else if (no.getEsquerda().isVazio()) {
             // Tem apenas um filho à direita.
             substituirNo(no, no.getDireita());
             // Garbage Collector pode liberar o espaço de no.
+
         } else if (no.getDireita().isVazio()) {
             // Tem apenas um filho à esquerda.
             substituirNo(no, no.getEsquerda());
             // Garbage Collector pode liberar o espaço de no.
+
         } else {
             // Tem dois filhos.
 
@@ -129,7 +135,8 @@ public class Arvore<T extends Comparable<T>> {
     }
 
     /**
-     * Remove valor da árvore se ele existir. Balanceia a árvore se necessário.
+     * Remove elemento da árvore se ele existir. Balanceia a árvore se necessário.
+     * @param valor Elemento a ser removido.
      * @return True se o valor foi removido, false se não está presente.
      */
     public boolean remover(T valor) {
@@ -145,14 +152,13 @@ public class Arvore<T extends Comparable<T>> {
     // Balanceamento
 
     /**
-     * Verifica o balanço do nó e, dependendo do valor, realiza rotações para tornar esta subárvore balanceada.
+     * Verifica o balanço do nó e, dependendo do valor, realiza rotações para balancear a subárvore.
      * @param no Nó que será verificado e balanceado.
      */
     private void balancear(No<T> no) {
 
         no.atualizarAltura();
 
-        // Substitui a propriedade para evitar recalcular.
         int balanco = no.getFatorBalanco();
 
         // Se -1 <= fatorBalanco <= 1, o nó já está balanceado e nada precisa ser feito.
@@ -194,7 +200,6 @@ public class Arvore<T extends Comparable<T>> {
          * x   x   x   c
          */
 
-        // Salvando referência a b antes de substituií-lo.
         No<T> b = a.getDireita();
 
         // O filho à esquerda de b, mesmo que seja nó vazio, se torna filho à direita de a.
@@ -211,7 +216,6 @@ public class Arvore<T extends Comparable<T>> {
          *   a       c
          */
 
-        // Atualizando as alturas dos nós afetados, a, b e c.
         // Os nós acima desta subárvore serão atualizados mais tarde
         // porque balancear chama atualizarAltura para todos eles.
         a.atualizarAltura();
@@ -243,7 +247,6 @@ public class Arvore<T extends Comparable<T>> {
          * a   x   x   x
          */
 
-        // Salvando referência a b antes de substituií-lo.
         No<T> b = c.getEsquerda();
 
         // O filho à direita de b, mesmo que seja nó vazio, se torna filho à direita de c.
@@ -260,9 +263,8 @@ public class Arvore<T extends Comparable<T>> {
          *   a       c
          */
 
-        // Atualizando as alturas dos nós afetados, a, b e c.
         // Os nós acima desta subárvore serão atualizados mais tarde
-        // porque balancear() chama atualizarAltura para todos eles.
+        // porque balancear chama atualizarAltura para todos eles.
         b.atualizarAltura();
         c.atualizarAltura();
         b.getEsquerda().atualizarAltura();
@@ -271,6 +273,8 @@ public class Arvore<T extends Comparable<T>> {
     /**
      * Atualiza o pai de novo por colocá-lo no lugar de antigo e
      * atualiza a raiz da árvore se necessário.
+     * @param antigo Nó que deve ser substituido.
+     * @param novo Nó que vai ser colocado na posição de antigo.
      */
     private void substituirNo(No<T> antigo, No<T> novo) {
 
@@ -279,7 +283,8 @@ public class Arvore<T extends Comparable<T>> {
             raiz = novo;
             novo.pai = null;
         // Se antigo era um filho à esquerda, novo o substitui.
-        } else if (antigo.pai.getEsquerda().equals(antigo)) {
+        // Compara por referência.
+        } else if (antigo.pai.getEsquerda() == antigo) {
             antigo.pai.setEsquerda(novo);
         // Se antigo era um filho à direita, novo o substitui.
         } else {
@@ -303,7 +308,7 @@ public class Arvore<T extends Comparable<T>> {
     }
 
     /**
-     * Para cada nó, adiciona ao StringBuilder o valor após a indentação e um indicador de raiz, esquerda ou direita.
+     * Para cada nó, adiciona à representação o valor após a indentação e um indicador de esquerda ou direita.
      * @param representacao StringBuilder que contém a representação da árvore.
      * @param nivel Profundidade do nó que será representada como indentação. 0 para raiz.
      */
