@@ -1,11 +1,11 @@
-package arvore;
+package tree;
 
 import java.util.*;
 
 /**
  * Classe de demonstração que insere e remove elementos da árvore.
  */
-public class Demonstracao {
+public class Demo {
     private static final Random random = new Random();
 
     public static void main(String[] args) {
@@ -23,17 +23,17 @@ public class Demonstracao {
                 """
         );
         Scanner scanner = new Scanner(System.in);
-        String resposta = "r";
+        String input = "r";
 
-        while (resposta.equals("r")) {
+        while (input.equals("r")) {
             // Cria uma lista de 20 inteiros aleatórios entre 0 e 99;
-            ArrayList<Integer> numeros =  arrayAleatorio(20, 99);
+            ArrayList<Integer> numbers =  randomArray(20, 99);
 
             // Transfere a lista para uma árvore.
-            Arvore<Integer> arvore =  arrayParaArvore(numeros);
+            Tree<Integer> tree =  arrayToTree(numbers);
 
             // Remove todos os itens da árvore.
-            removerListaArvore(numeros, arvore);
+            removeItemsFromTree(numbers, tree);
 
             System.out.println(
                     """
@@ -43,7 +43,7 @@ public class Demonstracao {
                     """
             );
 
-            resposta = scanner.next().toLowerCase();
+            input = scanner.next().toLowerCase();
 
         }
 
@@ -53,52 +53,52 @@ public class Demonstracao {
 
     /**
      * Produz um array de inteiros aleatorios, sem repetição, entre 0 e maximo.
-     * @param maximo Limite superior, não incluido, para os valores do array.
-     * @param tamanho Número de itens no array.
+     * @param max Limite superior, não incluido, para os valores do array.
+     * @param size Número de itens no array.
      */
-    public static ArrayList<Integer> arrayAleatorio(int tamanho, int maximo) {
+    public static ArrayList<Integer> randomArray(int size, int max) {
 
-        int tamanhoAceitavel = Math.min(tamanho, maximo);
+        int acceptableSize = Math.min(size, max);
 
         Set<Integer> linkedHashSet =  new LinkedHashSet<>();
-        while (linkedHashSet.size() < tamanhoAceitavel) {
-            linkedHashSet.add(random.nextInt(maximo));
+        while (linkedHashSet.size() < acceptableSize) {
+            linkedHashSet.add(random.nextInt(max));
         }
         return new ArrayList<>(linkedHashSet);
     }
 
     /**
      * Transfere os elementos de um array para uma árvore.
-     * @param numeros ArrayList de Integer a ser colocado na árvore.
+     * @param numbers ArrayList de Integer a ser colocado na árvore.
      * @return Arvore<Integer> contendo os elementos do array.
      */
-    private static Arvore<Integer> arrayParaArvore(ArrayList<Integer> numeros) {
+    private static Tree<Integer> arrayToTree(ArrayList<Integer> numbers) {
 
-        Arvore<Integer> arvore =  new Arvore<>();
+        Tree<Integer> tree =  new Tree<>();
         System.out.println("Adicionando os números a uma árvore vazia.");
 
-        for (Integer n: numeros) {
+        for (Integer n: numbers) {
             System.out.printf("Inserindo %s%n", n);
-            arvore.inserir(n);
-            System.out.println(arvore);
+            tree.insert(n);
+            System.out.println(tree);
         }
 
-        return arvore;
+        return tree;
     }
 
     /**
      * Remove de uma árvore os elementos de um array que estiverem presentes na árvore.
-     * @param numeros ArrayList<Integer> contendo os elementos a serem removidos.
-     * @param arvore Arvore<Integer> de onde devem ser removidos os elementos.
+     * @param numbers ArrayList<Integer> contendo os elementos a serem removidos.
+     * @param tree Arvore<Integer> de onde devem ser removidos os elementos.
      */
-    private static void removerListaArvore(ArrayList<Integer> numeros, Arvore<Integer> arvore) {
+    private static void removeItemsFromTree(ArrayList<Integer> numbers, Tree<Integer> tree) {
 
         System.out.println("Removendo números da árvore.");
 
-        for (Integer n: numeros) {
+        for (Integer n: numbers) {
             System.out.printf("Removendo %s%n", n);
-            arvore.remover(n);
-            System.out.println(arvore);
+            tree.remove(n);
+            System.out.println(tree);
         }
 
     }

@@ -1,4 +1,4 @@
-package arvore;
+package tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,72 +8,72 @@ import java.util.List;
  * Balanceada automaticamente por meio do algoritmo AVL.
  * @param <T> Tipo dos elementos armazenados na árvore.
  */
-public class Arvore<T extends Comparable<T>> {
+public class Tree<T extends Comparable<T>> {
 
-    private No<T> raiz = new No<>(null);
-    private int contagem = 0;
+    private Node<T> root = new Node<>(null);
+    private int size = 0;
 
     // Getters
-    public No<T> getRaiz() { return raiz; }
+    public Node<T> getRoot() { return root; }
 
-    public int getContagem() { return contagem; }
+    public int getSize() { return size; }
 
     /**
      * Função recursiva que desce na árvore até encontrar o elemento, comparando ele a cada nó.
-     * @param elemento Elemento procurado.
-     * @param no Nó que será examinado nesta iteração.
+     * @param element Elemento procurado.
+     * @param node Nó que será examinado nesta iteração.
      * @return O nó contendo o elemento, se encontrado,
      * ou o nó vazio onde o elemento deveria ser inserido, se não encontrado.
      */
-    private No<T> encontrar(T elemento, No<T> no) {
+    private Node<T> find(T element, Node<T> node) {
 
-        if (no.isVazio()) {
+        if (node.isEmpty()) {
             // Elemento não foi encontrado, mas pode ser adicionado nesta posição.
-            return no;
+            return node;
         }
 
-        int diferenca = no.getElemento().compareTo(elemento);
+        int diff = node.getElement().compareTo(element);
 
-        if (diferenca > 0) {
+        if (diff > 0) {
             // Elemento vem antes deste nó.
-            return encontrar(elemento, no.getEsquerda());
-        } else if (diferenca < 0) {
+            return find(element, node.getLeft());
+        } else if (diff < 0) {
             // Elemento vem depois deste nó.
-            return encontrar(elemento, no.getDireita());
+            return find(element, node.getRight());
         } else {
             // Elemento encontrado neste nó.
-            return no;
+            return node;
         }
     }
 
     /**
      * Verifica se elemento está presente na árvore.
-     * @param elemento Elemento procurado.
+     * @param element Elemento procurado.
      */
-    public boolean contem(T elemento) {
+    public boolean contains(T element) {
         // Se o método encontrar retorna um nó vazio, isso significa que o elemento não foi encontrado.
-        return !encontrar(elemento, raiz).isVazio();
+        return !find(element, root).isEmpty();
     }
 
     /**
      * Insere este elemento na árvore. Balanceia a árvore caso necessário.
      * @return True se o elemento foi inserido com sucesso, false se já existe na árvore.
      */
-    public boolean inserir(T elemento) {
+    public boolean insert(T element) {
 
-        No<T> noEncontrado = encontrar(elemento, raiz);
+        Node<T> node = find(element, root);
 
         // Se o nó não é vazio, o elemento já existe.
         // A árvore não aceita com duplicados.
-        if (!noEncontrado.isVazio()) { return false; }
+        if (!node.isEmpty()) { return false; }
 
-        noEncontrado.setElemento(elemento);
+        node.setElement(element);
 
-        contagem += 1;
+        size += 1;
 
         // Balanceia a subárvore modificada e todos os nós acima.
-        if (noEncontrado.pai != null) {
-            balancear(noEncontrado.pai);
+        if (node.parent != null) {
+            balance(node.parent);
         }
 
         return true;
@@ -81,71 +81,71 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Remove o nó da árvore. Balanceia a árvore se necessário.
-     * @param no Nó a remover.
+     * @param node Nó a remover.
      */
-    private void remover(No<T> no) {
+    private void remove(Node<T> node) {
 
         // Em 3 dos próximos 4 casos a modificação mais profunda na árvore
         // é no nó removido.
-        No<T> noABalancear = no.pai;
+        Node<T> nodeToBalance = node.parent;
 
-        if (no.getAltura() == 1) {
+        if (node.getHeight() == 1) {
             // Altura = 1 significa o mesmo que
             // esquerda.isVazio() && direita.isVazio().
             // Nó folha
-            no.esvaziar();
+            node.clear();
 
-        } else if (no.getEsquerda().isVazio()) {
+        } else if (node.getLeft().isEmpty()) {
             // Tem apenas um filho à direita.
-            substituirNo(no, no.getDireita());
+            replaceNode(node, node.getRight());
             // Garbage Collector pode liberar o espaço de no.
 
-        } else if (no.getDireita().isVazio()) {
+        } else if (node.getRight().isEmpty()) {
             // Tem apenas um filho à esquerda.
-            substituirNo(no, no.getEsquerda());
+            replaceNode(node, node.getLeft());
             // Garbage Collector pode liberar o espaço de no.
 
         } else {
             // Tem dois filhos.
 
             // Encontra nós mais à direita na subárvore esquerda.
-            No<T> predecessor = no.getEsquerda();
-            while (!predecessor.getDireita().isVazio()) {
-                predecessor =  predecessor.getDireita();
+            Node<T> predecessor = node.getLeft();
+            while (!predecessor.getRight().isEmpty()) {
+                predecessor =  predecessor.getRight();
             }
 
             // Coloca o elemento mais à direita da subárvore esquerda no lugar do elemento removido.
-            no.setElemento(predecessor.getElemento());
+            node.setElement(predecessor.getElement());
             // A árvore será balanceada quando o predecessor for removido.
-            noABalancear = null;
+            nodeToBalance = null;
             // Como o elemento predecessor está no lugar do elemento removido, ele pode ser excluido.
-            remover(predecessor);
+            remove(predecessor);
             // Anulando a modificação dupla da contagem devido à remoção do predecessor.
-            contagem += 1;
+            size += 1;
 
             // Garbage Collector pode liberar o espaço de no.
         }
 
-        contagem -= 1;
+        size -= 1;
 
-        if (noABalancear != null) {
-            balancear(noABalancear);
+        if (nodeToBalance != null) {
+            balance(nodeToBalance);
         }
 
     }
 
     /**
      * Remove elemento da árvore se ele existir. Balanceia a árvore se necessário.
-     * @param elemento Elemento a ser removido.
+     * @param element Elemento a ser removido.
      * @return True se o elemento foi removido, false se não está presente.
      */
-    public boolean remover(T elemento) {
+    public boolean remove(T element) {
 
-        No<T> noEncontrado = encontrar(elemento, raiz);
+        Node<T> node = find(element, root);
 
-        if (noEncontrado.isVazio()) { return false; }
+        if (node.isEmpty()) { return false; }
 
-        remover(noEncontrado);
+        remove(node);
         return true;
     }
 
@@ -153,23 +153,23 @@ public class Arvore<T extends Comparable<T>> {
 
     /**
      * Verifica o balanço do nó e, dependendo do valor, realiza rotações para balancear a subárvore.
-     * @param no Nó que será verificado e balanceado.
+     * @param node Nó que será verificado e balanceado.
      */
-    private void balancear(No<T> no) {
+    private void balance(Node<T> node) {
 
-        no.atualizarAltura();
+        node.updadeHeight();
 
-        int balanco = no.getFatorBalanco();
+        int balanceFactor = node.getBalanceFactor();
 
         // Se -1 <= fatorBalanco <= 1, o nó já está balanceado e nada precisa ser feito.
-        if (balanco < -1) {
-            rotacaoADireita(no);
-        } else if (balanco > 1) {
-            rotacaoAEsquerda(no);
+        if (balanceFactor < -1) {
+            rightRotation(node);
+        } else if (balanceFactor > 1) {
+            leftRotation(node);
         }
 
-        if (no.pai != null) {
-            balancear(no.pai);
+        if (node.parent != null) {
+            balance(node.parent);
         }
 
     }
@@ -185,14 +185,14 @@ public class Arvore<T extends Comparable<T>> {
      * </pre>
      * @param a Nó que vai ser rotacionado.
      */
-    private void rotacaoAEsquerda(No<T> a) {
+    private void leftRotation(Node<T> a) {
 
         /* Rotação dupla se o balanço de c é menor do que 0.
          *       a
          *   x       c
          * x   x   b   x
          */
-        if (a.getDireita().getFatorBalanco() < 0) { rotacaoADireita(a.getDireita()); }
+        if (a.getRight().getBalanceFactor() < 0) { rightRotation(a.getRight()); }
 
         /* Agora que o balanço de B é maior ou igual a 0 fazer uma rotação simples.
          *       a
@@ -200,16 +200,16 @@ public class Arvore<T extends Comparable<T>> {
          * x   x   x   c
          */
 
-        No<T> b = a.getDireita();
+        Node<T> b = a.getRight();
 
         // O filho à esquerda de b, mesmo que seja nó vazio, se torna filho à direita de a.
-        a.setDireita(b.getEsquerda());
+        a.setRight(b.getLeft());
 
         // Se a era raiz da árvore, agora b se torna raiz.
-        substituirNo(a, b);
+        replaceNode(a, b);
 
         // a se torna filho à esquerda de b.
-        b.setEsquerda(a);
+        b.setLeft(a);
 
         /* Resultado
          *       b
@@ -218,9 +218,9 @@ public class Arvore<T extends Comparable<T>> {
 
         // Os nós acima desta subárvore serão atualizados mais tarde
         // porque balancear chama atualizarAltura para todos eles.
-        a.atualizarAltura();
-        b.atualizarAltura();
-        b.getDireita().atualizarAltura();
+        a.updadeHeight();
+        b.updadeHeight();
+        b.getRight().updadeHeight();
     }
 
     /**
@@ -232,14 +232,14 @@ public class Arvore<T extends Comparable<T>> {
      * </pre>
      * @param c Nó que vai ser rotacionado.
      */
-    private void rotacaoADireita(No<T> c) {
+    private void rightRotation(Node<T> c) {
 
         /* Rotação dupla se o balanço de A é maior que 0.
          *       c
          *   a       x
          * x   b   x   x
          */
-        if (c.getEsquerda().getFatorBalanco() > 0) { rotacaoAEsquerda(c.getEsquerda()); }
+        if (c.getLeft().getBalanceFactor() > 0) { leftRotation(c.getLeft()); }
 
         /* Agora que o balanço de B é menor ou igual a 0 fazer uma rotação simples.
          *       c
@@ -247,16 +247,16 @@ public class Arvore<T extends Comparable<T>> {
          * a   x   x   x
          */
 
-        No<T> b = c.getEsquerda();
+        Node<T> b = c.getLeft();
 
         // O filho à direita de b, mesmo que seja nó vazio, se torna filho à direita de c.
-        c.setEsquerda(b.getDireita());
+        c.setLeft(b.getRight());
 
         // Se c era raiz da árvore, agora b se torna raiz.
-        substituirNo(c, b);
+        replaceNode(c, b);
 
         // a se torna filho à esquerda de b.
-        b.setDireita(c);
+        b.setRight(c);
 
         /* Resultado
          *       b
@@ -265,30 +265,30 @@ public class Arvore<T extends Comparable<T>> {
 
         // Os nós acima desta subárvore serão atualizados mais tarde
         // porque balancear chama atualizarAltura para todos eles.
-        b.atualizarAltura();
-        c.atualizarAltura();
-        b.getEsquerda().atualizarAltura();
+        b.updadeHeight();
+        c.updadeHeight();
+        b.getLeft().updadeHeight();
     }
 
     /**
      * Atualiza o pai de novo por colocá-lo no lugar de antigo e
      * atualiza a raiz da árvore se necessário.
-     * @param antigo Nó que deve ser substituido.
-     * @param novo Nó que vai ser colocado na posição de antigo.
+     * @param oldNode Nó que deve ser substituido.
+     * @param newNode Nó que vai ser colocado na posição de antigo.
      */
-    private void substituirNo(No<T> antigo, No<T> novo) {
+    private void replaceNode(Node<T> oldNode, Node<T> newNode) {
 
         // Se antigo era raiz da árvore, agora novo se torna raiz.
-        if (antigo.pai == null) {
-            raiz = novo;
-            novo.pai = null;
+        if (oldNode.parent == null) {
+            root = newNode;
+            newNode.parent = null;
         // Se antigo era um filho à esquerda, novo o substitui.
         // Compara por referência.
-        } else if (antigo.pai.getEsquerda() == antigo) {
-            antigo.pai.setEsquerda(novo);
+        } else if (oldNode.parent.getLeft() == oldNode) {
+            oldNode.parent.setLeft(newNode);
         // Se antigo era um filho à direita, novo o substitui.
         } else {
-            antigo.pai.setDireita(novo);
+            oldNode.parent.setRight(newNode);
         }
     }
 
@@ -302,27 +302,27 @@ public class Arvore<T extends Comparable<T>> {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        toStringVerticalRecursivo(stringBuilder, 0, raiz, '*');
+        recursiveVerticalToString(stringBuilder, 0, root, '*');
 
         return stringBuilder.toString();
     }
 
     /**
      * Adiciona cada nó à representação após a indentação e um indicador de esquerda ou direita.
-     * @param representacao StringBuilder que contém a representação da árvore.
-     * @param nivel Profundidade do nó que será representada como indentação. 0 para raiz.
+     * @param stringBuilder StringBuilder que contém a representação da árvore.
+     * @param level Profundidade do nó que será representada como indentação. 0 para raiz.
      */
-    private void toStringVerticalRecursivo(StringBuilder representacao, int nivel, No<T> no, char posicao) {
+    private void recursiveVerticalToString(StringBuilder stringBuilder, int level, Node<T> node, char position) {
 
-        if (no.isVazio()) { return; }
+        if (node.isEmpty()) { return; }
 
-        representacao.append(
+        stringBuilder.append(
                 "%s%c %s%n"
-                        .formatted(" ".repeat(nivel), posicao, no.getElemento().toString())
+                        .formatted(" ".repeat(level), position, node.getElement().toString())
         );
 
-        toStringVerticalRecursivo(representacao, nivel + 1, no.getEsquerda(), 'E');
-        toStringVerticalRecursivo(representacao, nivel + 1, no.getDireita(), 'D');
+        recursiveVerticalToString(stringBuilder, level + 1, node.getLeft(), 'E');
+        recursiveVerticalToString(stringBuilder, level + 1, node.getRight(), 'D');
 
     }
 
@@ -331,102 +331,102 @@ public class Arvore<T extends Comparable<T>> {
      * Nós irmãos ficam lado a lado.
      */
     public String toString() {
-        if (raiz.isVazio()) { return ""; }
+        if (root.isEmpty()) { return ""; }
 
         // Para cada linha da representação é feita uma lista de nós do nível correspondente da árvore.
-        ArrayList<ArrayList<No<T>>> linhas = new ArrayList<>(
+        ArrayList<ArrayList<Node<T>>> lines = new ArrayList<>(
                 List.of(
-                        new ArrayList<>(List.of(raiz))
+                        new ArrayList<>(List.of(root))
                 )
         );
 
         // A ‘String’ que será retornada.
-        StringBuilder representacao = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         // Número de caracteres necessários para representar o maior elemento da árvore.
-        int larguraMaxima =  raiz.getElemento().toString().length();
-        boolean continuar = true;
+        int maxWidth =  root.getElement().toString().length();
+        boolean hasNext = true;
 
-        while (continuar) {
-            ArrayList<No<T>> proximaLinha =  new ArrayList<>();
-            continuar = false;
+        while (hasNext) {
+            ArrayList<Node<T>> nextLine =  new ArrayList<>();
+            hasNext = false;
 
-            for (No<T> no: linhas.get(linhas.size() - 1)) {
-                if (no == null) {
+            for (Node<T> node : lines.get(lines.size() - 1)) {
+                if (node == null) {
 
-                    proximaLinha.add(null);
-                    proximaLinha.add(null);
+                    nextLine.add(null);
+                    nextLine.add(null);
 
                 } else {
 
                     // Largura deste nó.
-                    int larguraNo = no.getElemento().toString().length();
-                    if (larguraNo > larguraMaxima) {
-                        larguraMaxima = larguraNo;
+                    int nodeWidth = node.getElement().toString().length();
+                    if (nodeWidth > maxWidth) {
+                        maxWidth = nodeWidth;
                     }
 
                     // Prepara a próxima linha.
-                    if (no.getEsquerda().isVazio()) {
-                        proximaLinha.add(null);
+                    if (node.getLeft().isEmpty()) {
+                        nextLine.add(null);
                     } else {
-                        proximaLinha.add(no.getEsquerda());
-                        continuar = true;
+                        nextLine.add(node.getLeft());
+                        hasNext = true;
                     }
-                    if (no.getDireita().isVazio()) {
-                        proximaLinha.add(null);
+                    if (node.getRight().isEmpty()) {
+                        nextLine.add(null);
                     } else {
-                        proximaLinha.add(no.getDireita());
-                        continuar = true;
+                        nextLine.add(node.getRight());
+                        hasNext = true;
                     }
 
                 }
             }
 
-            if (continuar) {
-                linhas.add(proximaLinha);
+            if (hasNext) {
+                lines.add(nextLine);
             }
         }
 
-        int numNosUltimaLinha = linhas.get(linhas.size() - 1).size();
+        int lastLineSize = lines.get(lines.size() - 1).size();
 
         // Largura da última linha em função do espaço de um nó.
         // Espaçamento entre nós na última linha é um nó vazio.
-        int larguraArvore =  (2 * numNosUltimaLinha) - 1;
+        int treeWidth =  (2 * lastLineSize) - 1;
 
-        String espacoVazio = " ".repeat(larguraMaxima);
-        String noVazio = "-".repeat(larguraMaxima);
-        int profundidade = linhas.size();
+        String emptySpace = " ".repeat(maxWidth);
+        String emptyNode = "-".repeat(maxWidth);
+        int depth = lines.size();
 
-        for (int i = 0; i < profundidade; i++) {
-            ArrayList<No<T>> linha =  linhas.get(i);
+        for (int i = 0; i < depth; i++) {
+            ArrayList<Node<T>> line =  lines.get(i);
 
             // Espaço entre nós em função do espaço de um nó. Ex.: 1 nó vazio, 2 nós vazios, ...
-            int espacamento =  (int) Math.pow(2, (profundidade - i)) - 1;
+            int spacing =  (int) Math.pow(2, (depth - i)) - 1;
 
             // Espaço que é adicionado à esquerda para centralizar o nó nesta linha.
-            int larguraDestaLinha =
-                    larguraArvore - // Largura da árvore em nós.
-                            linha.size() - // Número de nós desta linha.
-                            ((linha.size() - 1) * espacamento); // Espaço ocupado nesta linha entre os nós em função do espaço de um nó.
+            int lineWidth =
+                    treeWidth - // Largura da árvore em nós.
+                            line.size() - // Número de nós desta linha.
+                            ((line.size() - 1) * spacing); // Espaço ocupado nesta linha entre os nós em função do espaço de um nó.
 
             // Adiciona a indentação antes da linha.
-            representacao.append(
-                   espacoVazio.repeat(larguraDestaLinha / 2)
+            stringBuilder.append(
+                   emptySpace.repeat(lineWidth / 2)
             );
 
-            for (int j = 0; j < linha.size(); j++) {
-                No<T> no = linha.get(j);
-                if (no == null) {
-                    representacao.append(noVazio);
+            for (int j = 0; j < line.size(); j++) {
+                Node<T> node = line.get(j);
+                if (node == null) {
+                    stringBuilder.append(emptyNode);
                 } else {
-                    representacao.append(String.format("%" + larguraMaxima + "s", no.getElemento()));
+                    stringBuilder.append(String.format("%" + maxWidth + "s", node.getElement()));
                 }
-                if (j != linha.size() - 1) {
-                    representacao.append(espacoVazio.repeat(espacamento));
+                if (j != line.size() - 1) {
+                    stringBuilder.append(emptySpace.repeat(spacing));
                 }
             }
-            representacao.append("\n");
+            stringBuilder.append("\n");
         }
-        return representacao.toString();
+        return stringBuilder.toString();
     }
 
 }
