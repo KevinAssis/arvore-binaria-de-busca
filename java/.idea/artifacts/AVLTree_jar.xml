@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="AVLTree:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AVLTree_jar</output-path>
+    <root id="archive" name="AVLTree.jar">
+      <element id="module-output" name="AVLTree" />
+    </root>
+  </artifact>
+</component>

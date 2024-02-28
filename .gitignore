@@ -20,16 +20,16 @@
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+java/hs_err_pid*
+java/replay_pid*
 
 ### IntelliJ IDEA ###
-out/
+java/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
+java/.idea/**/workspace.xml
+java/.idea/**/tasks.xml
+java/.idea/**/usage.statistics.xml
+java/.idea/**/dictionaries
+java/.idea/**/shelf
 *.iws
