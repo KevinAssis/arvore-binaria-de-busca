@@ -63,3 +63,4 @@ A cada inserção ou remoção os balanceamentos são verificados e as rotaçõe
 ## Implementações
 Abaixo estão os links para os READMEs de cada linguagem:
 * [Visual Basic](visual-basic/README.md)
+* [Java](java/README.md)
